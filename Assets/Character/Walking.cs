@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Character
 { 
     //! Control the movement of any given character
-    public class Movement : MonoBehaviour
+    public class Walking : MonoBehaviour
     {
         Rigidbody Rigidbody;
 
@@ -21,13 +21,8 @@ namespace Character
             Rigidbody = GetComponentInChildren<Rigidbody>();
         }
 
-        private void Update()
-        {
-            CharacterInput input = GetComponent<InputController>().GetInput();
-            Move(input);
-        }
-
-        void Move(CharacterInput input)
+        //! Walk the character in the given direction
+        public void Move(CharacterInput input)
         {
             Vector3 speedVec = input.Direction * speedForward;
 
