@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Character
 {
-    /**This class gets the input from the InputController and redistribute
+    /** \brief This class gets the input from the InputController and redistribute
      * \see InputController \see Walking
      */
     public class MovementManager : MonoBehaviour

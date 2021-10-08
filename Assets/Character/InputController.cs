@@ -11,13 +11,10 @@ namespace Character
         public Vector3 Direction;
     }
 
-    /**Gives the character Input to Movement
-     * \see Movement
-     * \todo Create AIInput
-     */
+    //!Gives the character Input to MovementManager
     public abstract class InputController : MonoBehaviour
     {
-        //! Gives to a character the current input. Should only be called from Movement
+        //! Gives to a character the current input. Should only be called from MovementManager
         public CharacterInput GetInput()
         {
             var input = new CharacterInput();

@@ -7,9 +7,10 @@ using System.Reflection;
 
 namespace Tests
 {
+    //! Test class for Character.MovementManager
     public class MovementManagerTests
     {
-        public class TestInput : InputController
+        class TestInput : InputController
         {
             public static Vector3 direction;
             protected override Vector3 GetDirection()
@@ -37,7 +38,6 @@ namespace Tests
             var mov = SetUpMovement(1, out Rigidbody rigidbody);
             TestInput.direction = Vector3.forward;
 
-            Debug.Log(mov.GetComponent<Walking>());
             yield return null;
 
             Assert.AreEqual(Vector3.forward, rigidbody.velocity);

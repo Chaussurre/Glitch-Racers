@@ -10,11 +10,18 @@ namespace Character
         Rigidbody Rigidbody;
 
         [Header("Stats:")]
-        [SerializeField]
-        float speedForward = 1;
-        
-        //! \todo Let side walking be independant from forward walking
-        //float speedSide;
+        [SerializeField, Min(0)]
+        [Tooltip("When the character goes from not moving to moving, this is the speed they starts at")]
+        float minSpeedForward = 1;
+        [SerializeField, Min(0)]
+        [Tooltip("when walking in a line, the character will accelerate until they reach their max speed")]
+        float acceleration = 1;
+        [SerializeField, Min(0)]
+        [Tooltip("When the character run at that speed, they can't accelerate anymore")]
+        float maxSpeedForward = 2;
+        [SerializeField, Min(0)]
+        [Tooltip("The speed the character walks from side to side")]
+        float speedSide = 1;
 
         protected virtual void Awake()
         {
@@ -24,9 +31,28 @@ namespace Character
         //! Walk the character in the given direction
         public void Move(CharacterInput input)
         {
-            Vector3 speedVec = input.Direction * speedForward;
+            input.Direction.Normalize();
+            Vector3 forwardVec = Vector3.Project(input.Direction, transform.forward);
+            Vector3 sideVec = input.Direction - forwardVec;
 
-            Rigidbody.velocity = new Vector3(speedVec.x, Rigidbody.velocity.y, speedVec.z);
+
+            ApplyMove(forwardVec, minSpeedForward, acceleration);
+            ApplyMove(sideVec, speedSide, 0);
+        }
+
+        void ApplyMove(Vector3 Direction, float Min, float acceleration)
+        {
+            float currentSpeed = Vector3.ProjectOnPlane(Rigidbody.velocity, Vector3.up).magnitude;
+
+            if (currentSpeed < Min)
+            {
+                Rigidbody.velocity = Direction * Min + Rigidbody.velocity;
+                currentSpeed = Vector3.ProjectOnPlane(Rigidbody.velocity, Vector3.up).magnitude;
+                if (currentSpeed > Min)
+                    Rigidbody.velocity = Rigidbody.velocity.normalized * Min;
+            }
+            else
+                Rigidbody.AddForce(Direction * acceleration);
         }
     }
 }
