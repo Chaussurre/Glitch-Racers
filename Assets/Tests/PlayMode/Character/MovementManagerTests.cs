@@ -7,9 +7,10 @@ using System.Reflection;
 
 namespace Tests
 {
-    public class MovementTests
+    //! Test class for Character.MovementManager
+    public class MovementManagerTests
     {
-        public class TestInput : InputController
+        class TestInput : InputController
         {
             public static Vector3 direction;
             protected override Vector3 GetDirection()
@@ -18,7 +19,7 @@ namespace Tests
             }
         }
 
-        public static Movement SetUpMovement(float speed, out Rigidbody rigidbody)
+        public static MovementManager SetUpMovement(float speed, out Rigidbody rigidbody)
         {
             GameObject go = new GameObject();
             go.AddComponent<TestInput>();
@@ -26,27 +27,26 @@ namespace Tests
             rigidbody = go.AddComponent<Rigidbody>();
             rigidbody.useGravity = false;
 
-            Movement movement = go.AddComponent<Movement>();
-            var field = typeof(Movement).GetField("speedForward",
-                BindingFlags.NonPublic | BindingFlags.Instance);
-            field.SetValue(movement, speed);
-            return movement;
+            WalkingTests.SetUpWalking(speed, out rigidbody, go);
+
+            return go.AddComponent<MovementManager>();
         }
 
         [UnityTest]
-        public IEnumerator MovementUnitTest()
+        public IEnumerator MovementManagerWalkTest()
         {
-            var move = SetUpMovement(1, out Rigidbody rigidbody);
+            var mov = SetUpMovement(1, out Rigidbody rigidbody);
             TestInput.direction = Vector3.forward;
+
             yield return null;
 
             Assert.AreEqual(Vector3.forward, rigidbody.velocity);
         }
 
         [UnityTest]
-        public IEnumerator MovementNotMovingTest()
+        public IEnumerator MovementManagerNotMovingTest()
         {
-            var move = SetUpMovement(1, out Rigidbody rigidbody);
+            SetUpMovement(1, out Rigidbody rigidbody);
             TestInput.direction = Vector3.zero;
             yield return null;
 
@@ -54,9 +54,9 @@ namespace Tests
         }
 
         [UnityTest]
-        public IEnumerator MovementSpeedTest()
+        public IEnumerator MovementManagerSpeedTest()
         {
-            var move = SetUpMovement(3, out Rigidbody rigidbody);
+            SetUpMovement(3, out Rigidbody rigidbody);
             TestInput.direction = Vector3.forward;
             yield return null;
 

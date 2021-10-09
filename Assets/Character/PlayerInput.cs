@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Character
+namespace Character.Player
 {
+    //! InputController for the player
     public class PlayerInput : InputController
     {
         protected override Vector3 GetDirection()
