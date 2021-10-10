@@ -30,18 +30,40 @@ namespace Tests
         public IEnumerator WalkingUnitTest()
         {
             var move = SetUpWalking(1, out Rigidbody rigidbody);
-            move.Move(new CharacterInput() { Direction = Vector3.forward});
-            
+            move.Walk(new CharacterInput() { Direction = Vector3.forward });
+
             yield return null;
 
             Assert.AreEqual(Vector3.forward, rigidbody.velocity);
         }
 
         [UnityTest]
+        public IEnumerator WalkingWrongInputTest()
+        {
+            var move = SetUpWalking(1, out Rigidbody rigidbody);
+            move.Walk(new CharacterInput() { Direction = Vector3.forward * 10 });
+
+            yield return null;
+
+            Assert.AreEqual(Vector3.forward, rigidbody.velocity);
+        }
+
+        [UnityTest]
+        public IEnumerator WalkingHalfInputTest()
+        {
+            var move = SetUpWalking(1, out Rigidbody rigidbody);
+            move.Walk(new CharacterInput() { Direction = Vector3.forward * 0.5f });
+
+            yield return null;
+
+            Assert.AreEqual(Vector3.forward * 0.5f, rigidbody.velocity);
+        }
+
+        [UnityTest]
         public IEnumerator WalkingNotMovingTest()
         {
             var move = SetUpWalking(1, out Rigidbody rigidbody);
-            move.Move(new CharacterInput() { Direction = Vector3.zero });
+            move.Walk(new CharacterInput() { Direction = Vector3.zero });
 
             yield return null;
 
@@ -52,12 +74,28 @@ namespace Tests
         public IEnumerator WalkingSpeedTest()
         {
             var move = SetUpWalking(3, out Rigidbody rigidbody);
-            move.Move(new CharacterInput() { Direction = Vector3.forward });
+            move.Walk(new CharacterInput() { Direction = Vector3.forward });
             yield return null;
 
             Assert.AreEqual(Vector3.forward * 3, rigidbody.velocity);
         }
-        
+
+        [UnityTest]
+        public IEnumerator WalkingBackwardTest()
+        {
+            var move = SetUpWalking(10, out Rigidbody rigidbody);
+
+            typeof(Walking).GetField("speedSide",
+                BindingFlags.NonPublic | BindingFlags.Instance)
+                .SetValue(move, 1);
+
+            move.Walk(new CharacterInput() { Direction = Vector3.back });
+
+            yield return null;
+
+            Assert.AreEqual(Vector3.back, rigidbody.velocity);
+        }
+
         [UnityTest]
         public IEnumerator WalkingAccelerateTest()
         {
@@ -69,12 +107,37 @@ namespace Tests
 
             for (int i = 0; i < 10; i++)
             {
-                move.Move(new CharacterInput() { Direction = Vector3.forward });
+                move.Walk(new CharacterInput() { Direction = Vector3.forward });
                 yield return null;
             }
 
             Debug.Log("velocity : " + rigidbody.velocity);
             Assert.IsTrue(rigidbody.velocity.z > 3.0f);
+        }
+
+        [UnityTest]
+        public IEnumerator WalkingDeccelerateTest()
+        {
+            var move = SetUpWalking(3, out Rigidbody rigidbody);
+
+            typeof(Walking).GetField("acceleration",
+                BindingFlags.NonPublic | BindingFlags.Instance)
+                .SetValue(move, 1);
+
+            for (int i = 0; i < 10; i++)
+            {
+                move.Walk(new CharacterInput() { Direction = Vector3.forward });
+                yield return null;
+            }
+
+            for (int i = 0; i < 10; i++)
+            {
+                move.Walk(new CharacterInput() { Direction = Vector3.zero });
+                yield return null;
+            }
+
+            Debug.Log("velocity : " + rigidbody.velocity);
+            Assert.IsTrue(rigidbody.velocity.z < 3.0f);
         }
 
         [UnityTest]
@@ -86,9 +149,9 @@ namespace Tests
                 BindingFlags.NonPublic | BindingFlags.Instance)
                 .SetValue(move, 1);
 
-            move.Move(new CharacterInput() { Direction = Vector3.left });
-            move.Move(new CharacterInput() { Direction = Vector3.left });
-            move.Move(new CharacterInput() { Direction = Vector3.left });
+            move.Walk(new CharacterInput() { Direction = Vector3.left });
+            move.Walk(new CharacterInput() { Direction = Vector3.left });
+            move.Walk(new CharacterInput() { Direction = Vector3.left });
 
             yield return null;
 

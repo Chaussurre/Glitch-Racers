@@ -7,8 +7,9 @@ namespace Camera
     //! Manage the Camera
     public class CameraRotator : MonoBehaviour
     {
-        //! Speed of the rotation
-        public float speed;
+        [SerializeField]
+        [Tooltip("Speed of the rotation")]
+        float speed;
 
         //! Rotation of the camera
         void Update()

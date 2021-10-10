@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 namespace Character
-{ 
-    //! Control the movement of any given character
+{
+    //! When a character is on the ground, will control its walking in all directions
     public class Walking : MonoBehaviour
     {
         Rigidbody Rigidbody;
@@ -17,6 +17,9 @@ namespace Character
         [Tooltip("when walking in a line, the character will accelerate until they reach their max speed")]
         float acceleration = 1;
         [SerializeField, Min(0)]
+        [Tooltip("when the character stops walking, how fast does he stops actually moving")]
+        float decceleration = 1;
+        [SerializeField, Min(0)]
         [Tooltip("When the character run at that speed, they can't accelerate anymore")]
         float maxSpeedForward = 2;
         [SerializeField, Min(0)]
@@ -26,33 +29,46 @@ namespace Character
         protected virtual void Awake()
         {
             Rigidbody = GetComponentInChildren<Rigidbody>();
+            if (speedSide > minSpeedForward) // it shouldn't ba faster to walk side to side than forward, this would cause bugs
+                Debug.LogError("SpeedSide greater than minSpeedForward");
         }
 
         //! Walk the character in the given direction
-        public void Move(CharacterInput input)
+        public void Walk(CharacterInput input)
         {
-            input.Direction.Normalize();
-            Vector3 forwardVec = Vector3.Project(input.Direction, transform.forward);
-            Vector3 sideVec = input.Direction - forwardVec;
+            if (input.Direction.sqrMagnitude > 1)
+                input.Direction.Normalize();
 
+            Vector3 flatVelocity = Vector3.ProjectOnPlane(Rigidbody.velocity, Vector3.up);
+            Vector3 fallVel = Rigidbody.velocity - flatVelocity;
 
-            ApplyMove(forwardVec, minSpeedForward, acceleration);
-            ApplyMove(sideVec, speedSide, 0);
+            Vector3 forwardVel = Vector3.Project(Rigidbody.velocity, transform.forward);
+
+            Vector3 forwardInput = Vector3.Project(input.Direction, transform.forward);
+            Vector3 sideInput = input.Direction - forwardInput;
+
+            Rigidbody.velocity = MoveForward(forwardInput, forwardVel) 
+                + MoveSide(sideInput) 
+                + fallVel;
         }
 
-        void ApplyMove(Vector3 Direction, float Min, float acceleration)
+        Vector3 MoveForward(Vector3 input, Vector3 velocity)
         {
-            float currentSpeed = Vector3.ProjectOnPlane(Rigidbody.velocity, Vector3.up).magnitude;
+            if (Vector3.Dot(input, transform.forward) < 0)
+                return MoveSide(input);
 
-            if (currentSpeed < Min)
-            {
-                Rigidbody.velocity = Direction * Min + Rigidbody.velocity;
-                currentSpeed = Vector3.ProjectOnPlane(Rigidbody.velocity, Vector3.up).magnitude;
-                if (currentSpeed > Min)
-                    Rigidbody.velocity = Rigidbody.velocity.normalized * Min;
-            }
-            else
-                Rigidbody.AddForce(Direction * acceleration);
+            if (velocity.magnitude < minSpeedForward)
+                return input * minSpeedForward;
+            
+            if (input.sqrMagnitude < 0.1f)
+                return velocity - velocity * decceleration * Time.deltaTime;
+
+            return velocity + input * acceleration * Time.deltaTime;
+        }
+
+        Vector3 MoveSide(Vector3 sideInput)
+        {
+            return sideInput * speedSide;
         }
     }
 }

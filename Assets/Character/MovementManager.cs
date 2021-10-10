@@ -22,7 +22,7 @@ namespace Character
         {
             CharacterInput input = Input.GetInput();
 
-            Walker?.Move(input);
+            Walker?.Walk(input);
         }
     }
 }
