@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Camera
+namespace CameraObject
 {
     //! Manage the Camera
     public class CameraRotator : MonoBehaviour
