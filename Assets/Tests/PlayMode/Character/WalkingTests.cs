@@ -116,6 +116,53 @@ namespace Tests
         }
 
         [UnityTest]
+        public IEnumerator WalkingAccelerateMaxTest()
+        {
+            var move = SetUpWalking(3, out Rigidbody rigidbody);
+
+            typeof(Walking).GetField("acceleration",
+                BindingFlags.NonPublic | BindingFlags.Instance)
+                .SetValue(move, 100);
+
+            typeof(Walking).GetField("maxSpeedForward",
+                BindingFlags.NonPublic | BindingFlags.Instance)
+                .SetValue(move, 10);
+
+            for (int i = 0; i < 20; i++)
+            {
+                move.Walk(new CharacterInput() { Direction = Vector3.forward });
+                yield return null;
+            }
+
+            Assert.AreEqual(Vector3.forward * 10, rigidbody.velocity);
+        }
+
+        [UnityTest]
+        public IEnumerator WalkingForwardThenBackTest()
+        {
+            var move = SetUpWalking(3, out Rigidbody rigidbody);
+
+            typeof(Walking).GetField("acceleration",
+                BindingFlags.NonPublic | BindingFlags.Instance)
+                .SetValue(move, 100);
+
+            for (int i = 0; i < 10; i++)
+            {
+                move.Walk(new CharacterInput() { Direction = Vector3.forward });
+                yield return null;
+            }
+
+            for (int i = 0; i < 3; i++)
+            {
+                move.Walk(new CharacterInput() { Direction = Vector3.back });
+                yield return null;
+            }
+
+            Debug.Log(rigidbody.velocity);
+            Assert.IsTrue(rigidbody.velocity.z > 0);
+        }
+        
+        [UnityTest]
         public IEnumerator WalkingDeccelerateTest()
         {
             var move = SetUpWalking(3, out Rigidbody rigidbody);

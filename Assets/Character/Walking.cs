@@ -21,7 +21,7 @@ namespace Character
         float decceleration = 1;
         [SerializeField, Min(0)]
         [Tooltip("When the character run at that speed, they can't accelerate anymore")]
-        float maxSpeedForward = 2;
+        float maxSpeedForward = 10;
         [SerializeField, Min(0)]
         [Tooltip("The speed the character walks from side to side")]
         float speedSide = 1;
@@ -54,16 +54,30 @@ namespace Character
 
         Vector3 MoveForward(Vector3 input, Vector3 velocity)
         {
-            if (Vector3.Dot(input, transform.forward) < 0)
+            bool backwardInput = Vector3.Dot(input, transform.forward) < 0;
+            bool backwardVel = Vector3.Dot(transform.forward, velocity) < 0;
+            
+            if (input.sqrMagnitude < 0.1f || (backwardInput && !backwardVel && velocity.sqrMagnitude > 0.1f))
+                return velocity - velocity * decceleration * Time.deltaTime;
+
+            if (backwardInput && velocity.magnitude <= minSpeedForward)
                 return MoveSide(input);
 
             if (velocity.magnitude < minSpeedForward)
                 return input * minSpeedForward;
-            
-            if (input.sqrMagnitude < 0.1f)
-                return velocity - velocity * decceleration * Time.deltaTime;
 
-            return velocity + input * acceleration * Time.deltaTime;
+            if (velocity.magnitude < maxSpeedForward)
+            {
+                Vector3 newVel = velocity + input * acceleration * Time.deltaTime;
+
+                if (newVel.magnitude > maxSpeedForward)
+                    newVel = newVel.normalized * maxSpeedForward;
+
+                return newVel;
+            }
+
+
+            return velocity;
         }
 
         Vector3 MoveSide(Vector3 sideInput)
