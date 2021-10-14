@@ -9,7 +9,7 @@ namespace Character.IA
     public class AIInput : InputController
     {
         //! \todo implement GetDirection
-        protected override Vector3 GetDirection()
+        protected override Vector3 GetWalkDirection()
         {
             throw new NotImplementedException();
         }

@@ -30,7 +30,7 @@ namespace Tests
         public IEnumerator WalkingUnitTest()
         {
             var move = SetUpWalking(1, out Rigidbody rigidbody);
-            move.Walk(new CharacterInput() { Direction = Vector3.forward });
+            move.Walk(new CharacterInput() { WalkDirection = Vector3.forward });
 
             yield return null;
 
@@ -41,7 +41,7 @@ namespace Tests
         public IEnumerator WalkingWrongInputTest()
         {
             var move = SetUpWalking(1, out Rigidbody rigidbody);
-            move.Walk(new CharacterInput() { Direction = Vector3.forward * 10 });
+            move.Walk(new CharacterInput() { WalkDirection = Vector3.forward * 10 });
 
             yield return null;
 
@@ -52,7 +52,7 @@ namespace Tests
         public IEnumerator WalkingHalfInputTest()
         {
             var move = SetUpWalking(1, out Rigidbody rigidbody);
-            move.Walk(new CharacterInput() { Direction = Vector3.forward * 0.5f });
+            move.Walk(new CharacterInput() { WalkDirection = Vector3.forward * 0.5f });
 
             yield return null;
 
@@ -63,7 +63,7 @@ namespace Tests
         public IEnumerator WalkingNotMovingTest()
         {
             var move = SetUpWalking(1, out Rigidbody rigidbody);
-            move.Walk(new CharacterInput() { Direction = Vector3.zero });
+            move.Walk(new CharacterInput() { WalkDirection = Vector3.zero });
 
             yield return null;
 
@@ -74,7 +74,7 @@ namespace Tests
         public IEnumerator WalkingSpeedTest()
         {
             var move = SetUpWalking(3, out Rigidbody rigidbody);
-            move.Walk(new CharacterInput() { Direction = Vector3.forward });
+            move.Walk(new CharacterInput() { WalkDirection = Vector3.forward });
             yield return null;
 
             Assert.AreEqual(Vector3.forward * 3, rigidbody.velocity);
@@ -89,7 +89,7 @@ namespace Tests
                 BindingFlags.NonPublic | BindingFlags.Instance)
                 .SetValue(move, 1);
 
-            move.Walk(new CharacterInput() { Direction = Vector3.back });
+            move.Walk(new CharacterInput() { WalkDirection = Vector3.back });
 
             yield return null;
 
@@ -107,7 +107,7 @@ namespace Tests
 
             for (int i = 0; i < 10; i++)
             {
-                move.Walk(new CharacterInput() { Direction = Vector3.forward });
+                move.Walk(new CharacterInput() { WalkDirection = Vector3.forward });
                 yield return null;
             }
 
@@ -130,7 +130,7 @@ namespace Tests
 
             for (int i = 0; i < 20; i++)
             {
-                move.Walk(new CharacterInput() { Direction = Vector3.forward });
+                move.Walk(new CharacterInput() { WalkDirection = Vector3.forward });
                 yield return null;
             }
 
@@ -148,13 +148,13 @@ namespace Tests
 
             for (int i = 0; i < 10; i++)
             {
-                move.Walk(new CharacterInput() { Direction = Vector3.forward });
+                move.Walk(new CharacterInput() { WalkDirection = Vector3.forward });
                 yield return null;
             }
 
             for (int i = 0; i < 3; i++)
             {
-                move.Walk(new CharacterInput() { Direction = Vector3.back });
+                move.Walk(new CharacterInput() { WalkDirection = Vector3.back });
                 yield return null;
             }
 
@@ -173,13 +173,13 @@ namespace Tests
 
             for (int i = 0; i < 10; i++)
             {
-                move.Walk(new CharacterInput() { Direction = Vector3.forward });
+                move.Walk(new CharacterInput() { WalkDirection = Vector3.forward });
                 yield return null;
             }
 
             for (int i = 0; i < 10; i++)
             {
-                move.Walk(new CharacterInput() { Direction = Vector3.zero });
+                move.Walk(new CharacterInput() { WalkDirection = Vector3.zero });
                 yield return null;
             }
 
@@ -196,9 +196,9 @@ namespace Tests
                 BindingFlags.NonPublic | BindingFlags.Instance)
                 .SetValue(move, 1);
 
-            move.Walk(new CharacterInput() { Direction = Vector3.left });
-            move.Walk(new CharacterInput() { Direction = Vector3.left });
-            move.Walk(new CharacterInput() { Direction = Vector3.left });
+            move.Walk(new CharacterInput() { WalkDirection = Vector3.left });
+            move.Walk(new CharacterInput() { WalkDirection = Vector3.left });
+            move.Walk(new CharacterInput() { WalkDirection = Vector3.left });
 
             yield return null;
 

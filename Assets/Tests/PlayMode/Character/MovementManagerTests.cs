@@ -13,7 +13,7 @@ namespace Tests
         class TestInput : InputController
         {
             public static Vector3 direction;
-            protected override Vector3 GetDirection()
+            protected override Vector3 GetWalkDirection()
             {
                 return direction;
             }

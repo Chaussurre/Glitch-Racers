@@ -28,13 +28,6 @@ namespace Character
             }
         }
 
-        private Rigidbody rigidbody;
-
-        private void Awake()
-        {
-            rigidbody = GetComponent<Rigidbody>();
-        }
-
         private void Update()
         {
             normal = Vector3.zero;

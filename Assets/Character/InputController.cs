@@ -8,7 +8,7 @@ namespace Character
     public struct CharacterInput
     {
         //! where is the character walking towards
-        public Vector3 Direction;
+        public Vector3 WalkDirection;
     }
 
     //!Gives the character Input to MovementManager
@@ -18,11 +18,11 @@ namespace Character
         public CharacterInput GetInput()
         {
             var input = new CharacterInput();
-            input.Direction = GetDirection();
+            input.WalkDirection = GetWalkDirection();
             return input;
         }
 
-        virtual protected Vector3 GetDirection()
+        virtual protected Vector3 GetWalkDirection()
         {
             return Vector3.zero;
         }
