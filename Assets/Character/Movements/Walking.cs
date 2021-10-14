@@ -4,10 +4,13 @@ using UnityEngine;
 
 namespace Character
 {
-    //! When a character is on the ground, will control its walking in all directions
+    /** When a character is on the ground, will control its walking in all directions, when on ground
+     * \see GroundDetector
+     */
     public class Walking : MonoBehaviour
     {
         Rigidbody Rigidbody;
+        GroundDetector ground;
 
         [Header("Stats:")]
         [SerializeField, Min(0)]
@@ -29,6 +32,7 @@ namespace Character
         protected virtual void Awake()
         {
             Rigidbody = GetComponentInChildren<Rigidbody>();
+            ground = GetComponentInChildren<GroundDetector>();
             if (speedSide > minSpeedForward) // it shouldn't ba faster to walk side to side than forward, this would cause bugs
                 Debug.LogError("SpeedSide greater than minSpeedForward");
         }
@@ -36,6 +40,9 @@ namespace Character
         //! Walk the character in the given direction
         public void Walk(CharacterInput input)
         {
+            if (ground && !ground.OnGround) // Only walks on ground
+                return;
+
             if (input.Direction.sqrMagnitude > 1)
                 input.Direction.Normalize();
 

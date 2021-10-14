@@ -293,6 +293,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8383ce51bb8cf45408ec159761792355, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  GravitySensibilty: 1
 --- !u!114 &6406729717771178688
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -327,6 +328,7 @@ GameObject:
   m_Component:
   - component: {fileID: 466202891657260662}
   - component: {fileID: 9198252486370759310}
+  - component: {fileID: 4975738752781141132}
   m_Layer: 0
   m_Name: Physics
   m_TagString: Untagged
@@ -367,3 +369,16 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 1
+--- !u!114 &4975738752781141132
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7064976624339669981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bd596d5c5deafed43946e82d8f9e2c79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  count: 0

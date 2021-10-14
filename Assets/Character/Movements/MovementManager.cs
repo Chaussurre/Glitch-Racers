@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Character
 {
     /** \brief This class gets the input from the InputController and redistribute
-     * \see InputController \see Walking
+     * \see InputController \see Walking \see GravityApply
      */
     public class MovementManager : MonoBehaviour
     {

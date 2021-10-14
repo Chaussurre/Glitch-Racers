@@ -4,6 +4,8 @@ using UnityEngine;
 
 namespace Character
 {
+    /** \brief Control the gravity applied to the charcter
+     */
     public class GravityApply : MonoBehaviour
     {
         Rigidbody rigidbody;
@@ -20,6 +22,9 @@ namespace Character
 
         public void GravityPush()
         {
+            if (!isActiveAndEnabled)
+                return;
+
             rigidbody.AddForce(Physics.gravity * GravitySensibilty);
         }
     }
