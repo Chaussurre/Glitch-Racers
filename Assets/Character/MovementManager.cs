@@ -9,20 +9,23 @@ namespace Character
      */
     public class MovementManager : MonoBehaviour
     {
-        Walking Walker;
-        InputController Input;
+        Walking walker;
+        GravityApply gravity;
+        InputController inputController;
 
         private void Awake()
         {
-            Walker = GetComponent<Walking>();
-            Input = GetComponent<InputController>();
+            walker = GetComponent<Walking>();
+            inputController = GetComponent<InputController>();
+            gravity = GetComponent<GravityApply>();
         }
 
         void Update()
         {
-            CharacterInput input = Input.GetInput();
+            CharacterInput input = inputController.GetInput();
 
-            Walker?.Walk(input);
+            walker?.Walk(input);
+            gravity?.GravityPush();
         }
     }
 }
