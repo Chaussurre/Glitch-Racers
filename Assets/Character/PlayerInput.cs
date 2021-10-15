@@ -23,5 +23,11 @@ namespace Character.Player
             
             return rotationInput * new Vector3(x, 0, z);
         }
+
+        protected override bool GetJump(out bool hold)
+        {
+            hold = Input.GetButton("Jump");
+            return Input.GetButtonDown("Jump");
+        }
     }
 }

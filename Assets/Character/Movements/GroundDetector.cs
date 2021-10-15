@@ -24,7 +24,7 @@ namespace Character
         {
             get
             {
-                return Vector3.Angle(Vector3.up, normal) <= AngleTolerance;
+                return  normal.sqrMagnitude > 0 && Vector3.Angle(Vector3.up, normal) <= AngleTolerance;
             }
         }
 

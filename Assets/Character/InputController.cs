@@ -9,6 +9,10 @@ namespace Character
     {
         //! where is the character walking towards
         public Vector3 WalkDirection;
+        //! wether the character starts a jump
+        public bool Jump;
+        //! Holding the jump makes you jump higher
+        public bool HoldJump;
     }
 
     //!Gives the character Input to MovementManager
@@ -19,12 +23,19 @@ namespace Character
         {
             var input = new CharacterInput();
             input.WalkDirection = GetWalkDirection();
+            input.Jump = GetJump(out input.HoldJump);
             return input;
         }
 
         virtual protected Vector3 GetWalkDirection()
         {
             return Vector3.zero;
+        }
+
+        virtual protected bool GetJump(out bool hold)
+        {
+            hold = false;
+            return false;
         }
     }
 }
