@@ -7,11 +7,11 @@ namespace Character.Player
     //! InputController for the player
     public class PlayerInput : InputController
     {
-        Rigidbody rigidbody;
+        Rigidbody rb;
 
         private void Start()
         {
-            rigidbody = GetComponentInChildren<Rigidbody>();
+            rb = GetComponentInChildren<Rigidbody>();
         }
 
         protected override Vector3 GetWalkDirection()
@@ -19,7 +19,7 @@ namespace Character.Player
             float x = Input.GetAxis("Horizontal");
             float z = Input.GetAxis("Vertical");
 
-            Quaternion rotationInput = Quaternion.Euler(0, Vector3.SignedAngle(Vector3.forward, rigidbody.transform.forward, Vector3.up), 0);
+            Quaternion rotationInput = Quaternion.Euler(0, Vector3.SignedAngle(Vector3.forward, rb.transform.forward, Vector3.up), 0);
             
             return rotationInput * new Vector3(x, 0, z);
         }

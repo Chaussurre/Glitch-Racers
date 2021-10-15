@@ -8,15 +8,43 @@ namespace Character
      */
     public class GravityApply : MonoBehaviour
     {
-        Rigidbody rigidbody;
+        Rigidbody rb;
+
+
+        readonly private Dictionary<string, float> sensibilities = new Dictionary<string, float>();
+
+        //! Change the character's sensibility to gravity by given ratio. Sensibilities are stored by name
+        public void SetSensibility(string name, float val)
+        {
+            val = Mathf.Max(val, 0);
+            if (sensibilities.ContainsKey(name))
+                sensibilities[name] = val;
+            else
+                sensibilities.Add(name, val);
+        }
+
+        //! Reverse the change done by a specific sensibility
+        public void RemoveSensibility(string name)
+        {
+            if (sensibilities.ContainsKey(name))
+                sensibilities.Remove(name);
+        }
 
         //! How much is this object affected by gravity
-        [HideInInspector]
-        public float GravitySensibilty = 1;
+        public float GravitySensibilty
+        {
+            get
+            {
+                float res = 1;
+                foreach (var pair in sensibilities)
+                    res *= pair.Value;
+                return res;
+            }
+        }
 
         private void Start()
         {
-            rigidbody = GetComponentInChildren<Rigidbody>();
+            rb = GetComponentInChildren<Rigidbody>();
         }
 
 
@@ -25,7 +53,7 @@ namespace Character
             if (!isActiveAndEnabled)
                 return;
 
-            rigidbody.AddForce(Physics.gravity * GravitySensibilty);
+            rb.AddForce(Physics.gravity * GravitySensibilty);
         }
     }
 }

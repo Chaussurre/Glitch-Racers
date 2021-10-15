@@ -385,7 +385,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8383ce51bb8cf45408ec159761792355, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GravitySensibilty: 1
 --- !u!114 &6584330101298832286
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -399,3 +398,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpStrength: 5
+  HoldJumpGravitySensibility: 0.5
