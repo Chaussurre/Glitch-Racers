@@ -8,10 +8,16 @@ namespace Character.IA
     //! Handle the decisions for the AI
     public class AIInput : InputController
     {
+        [SerializeField]
+        GameObject target;
+
+        [SerializeField]
+        GameObject body;
+
         //! \todo implement GetDirection
         protected override Vector3 GetWalkDirection()
         {
-            throw new NotImplementedException();
+            return target.transform.position - body.transform.position;
         }
     }
 }

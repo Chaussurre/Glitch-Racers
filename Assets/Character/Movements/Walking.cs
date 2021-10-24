@@ -43,6 +43,8 @@ namespace Character
             if (ground && ground.Ground != GroundDetector.GroundType.Walkable) // Only walks on ground
                 return;
 
+            input.WalkDirection = Vector3.ProjectOnPlane(input.WalkDirection, Vector3.up);
+
             if (input.WalkDirection.sqrMagnitude > 1)
                 input.WalkDirection.Normalize();
 
