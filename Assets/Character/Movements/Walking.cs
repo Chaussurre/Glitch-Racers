@@ -9,7 +9,7 @@ namespace Character
      */
     public class Walking : MonoBehaviour
     {
-        Rigidbody Rigidbody;
+        new Rigidbody rigidbody;
         GroundDetector ground;
 
         [Header("Stats:")]
@@ -31,7 +31,7 @@ namespace Character
 
         protected virtual void Awake()
         {
-            Rigidbody = GetComponentInChildren<Rigidbody>();
+            rigidbody = GetComponentInChildren<Rigidbody>();
             ground = GetComponentInChildren<GroundDetector>();
             if (speedSide > minSpeedForward) // it shouldn't ba faster to walk side to side than forward, this would cause bugs
                 Debug.LogError("SpeedSide greater than minSpeedForward");
@@ -40,21 +40,21 @@ namespace Character
         //! Walk the character in the given direction
         public void Walk(CharacterInput input)
         {
-            if (ground && !ground.OnGround) // Only walks on ground
+            if (ground && ground.Ground != GroundDetector.GroundType.Walkable) // Only walks on ground
                 return;
 
             if (input.WalkDirection.sqrMagnitude > 1)
                 input.WalkDirection.Normalize();
 
-            Vector3 flatVelocity = Vector3.ProjectOnPlane(Rigidbody.velocity, Vector3.up);
-            Vector3 fallVel = Rigidbody.velocity - flatVelocity;
+            Vector3 flatVelocity = Vector3.ProjectOnPlane(rigidbody.velocity, Vector3.up);
+            Vector3 fallVel = rigidbody.velocity - flatVelocity;
 
-            Vector3 forwardVel = Vector3.Project(Rigidbody.velocity, transform.forward);
+            Vector3 forwardVel = Vector3.Project(rigidbody.velocity, transform.forward);
 
             Vector3 forwardInput = Vector3.Project(input.WalkDirection, transform.forward);
             Vector3 sideInput = input.WalkDirection - forwardInput;
 
-            Rigidbody.velocity = MoveForward(forwardInput, forwardVel) 
+            rigidbody.velocity = MoveForward(forwardInput, forwardVel) 
                 + MoveSide(sideInput) 
                 + fallVel;
         }
@@ -91,5 +91,6 @@ namespace Character
         {
             return sideInput * speedSide;
         }
+
     }
 }

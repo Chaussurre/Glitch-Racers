@@ -31,7 +31,7 @@ namespace Tests
             
             yield return null;
 
-            Assert.IsFalse(detector.OnGround);
+            Assert.AreNotEqual(GroundDetector.GroundType.Walkable, detector.Ground);
         }
 
         [UnityTest]
@@ -46,7 +46,7 @@ namespace Tests
 
             yield return new WaitForSeconds(1);
 
-            Assert.IsTrue(detector.OnGround);
+            Assert.AreEqual(GroundDetector.GroundType.Walkable, detector.Ground);
         }
     }
 }
