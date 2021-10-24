@@ -27,7 +27,7 @@ namespace Character
 
         public void TryJump(CharacterInput input)
         {
-            if (ground.OnGround)
+            if (ground.Ground == GroundDetector.GroundType.Walkable)
                 if (input.Jump)
                 {
                     rb.velocity += Vector3.up * jumpStrength;
