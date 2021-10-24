@@ -13,5 +13,10 @@ namespace Character.IA
         {
             throw new NotImplementedException();
         }
+
+        protected override bool GetJump(out bool hold)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
