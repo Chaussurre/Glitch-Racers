@@ -28,10 +28,10 @@ namespace Character
             target = TargetTransform.transform.localRotation.eulerAngles;
         }
 
-        void Update()
+        public void LookAround(CharacterInput input)
         {
-            target.x -= Input.GetAxis("Mouse Y") * sensitivity * Time.deltaTime;
-            rotation.y += Input.GetAxis("Mouse X") * sensitivity * Time.deltaTime;
+            target.x -= input.Camera.y * sensitivity * Time.deltaTime;
+            rotation.y += input.Camera.x * sensitivity * Time.deltaTime;
             target.x = Mathf.Clamp(target.x, minAngle, maxAngle);
 
             TargetTransform.localEulerAngles = target;

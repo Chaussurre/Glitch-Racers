@@ -13,6 +13,8 @@ namespace Character
         public bool Jump;
         //! Holding the jump makes you jump higher
         public bool HoldJump;
+        //! Rotation of the Camera
+        public Vector3 Camera;
     }
 
     //!Gives the character Input to MovementManager
@@ -24,6 +26,7 @@ namespace Character
             var input = new CharacterInput();
             input.WalkDirection = GetWalkDirection();
             input.Jump = GetJump(out input.HoldJump);
+            input.Camera = GetCameraDirection();
             return input;
         }
 
@@ -36,6 +39,11 @@ namespace Character
         {
             hold = false;
             return false;
+        }
+
+        virtual protected Vector3 GetCameraDirection()
+        {
+            return Vector3.zero;
         }
     }
 }
