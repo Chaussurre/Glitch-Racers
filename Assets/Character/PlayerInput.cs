@@ -34,8 +34,8 @@ namespace Character.Player
         protected override Vector3 GetCameraDirection()
         {
             Vector3 camDirection = new Vector3();
-            camDirection.x = Input.mousePosition.x * Time.deltaTime;
-            camDirection.y = Input.mousePosition.y * Time.deltaTime;
+            camDirection.x = Input.GetAxis("Mouse X");
+            camDirection.y = Input.GetAxis("Mouse Y");
 
             return camDirection;
         }
