@@ -7,6 +7,7 @@ namespace Character.Player
     //! InputController for the player
     public class PlayerInput : InputController
     {
+
         Rigidbody rb;
 
         private void Start()
@@ -28,6 +29,15 @@ namespace Character.Player
         {
             hold = Input.GetButton("Jump");
             return Input.GetButtonDown("Jump");
+        }
+
+        protected override Vector3 GetCameraDirection()
+        {
+            Vector3 camDirection = new Vector3();
+            camDirection.x = Input.GetAxis("Mouse X");
+            camDirection.y = Input.GetAxis("Mouse Y");
+
+            return camDirection;
         }
     }
 }

@@ -14,6 +14,7 @@ namespace Character
         InputController inputController;
         CharacterRotation rotation;
         Jump jump;
+        WallRunner wallRunner;
 
         private void Awake()
         {
@@ -22,6 +23,7 @@ namespace Character
             gravity = GetComponentInChildren<GravityApply>();
             rotation = GetComponentInChildren<CharacterRotation>();
             jump = GetComponentInChildren<Jump>();
+            wallRunner = GetComponentInChildren<WallRunner>();
         }
 
         void Update()
@@ -29,8 +31,9 @@ namespace Character
             CharacterInput input = inputController.GetInput();
 
             walker?.Walk(input);
-            //rotation?.LookAround(input);
+            rotation?.LookAround(input);
             jump?.TryJump(input);
+            wallRunner?.TryWallRun();
             gravity?.GravityPush();
         }
     }
