@@ -10,9 +10,9 @@ namespace Character
     //! Detects what type of ground the character is on
     public class GroundDetector : MonoBehaviour
     {
-        public enum GroundType 
+        public enum GroundType
         {
-            None, Walkable, WallRunnable
+            None, Walkable, WallRunnable, WallClimbable
         }
 
         [SerializeField, Range(0, 90)]
@@ -22,8 +22,8 @@ namespace Character
         [Tooltip("The angle at which a wall can be wall runned")]
         float WallRunAngleVerticalTolerance = 5;
         [SerializeField, Range(0, 90)]
-        [Tooltip("The angle at which the character must face the wall to wall run")]
-        float WallRunAngleHorizontalTolerance = 30;
+        [Tooltip("The angle at which the character must face the wall to wall climb")]
+        float WallClimbAngleHorizontalTolerance = 30;
 
 
         readonly private Dictionary<Collider, Vector3> normals = new Dictionary<Collider, Vector3>();
@@ -32,30 +32,14 @@ namespace Character
         private GameObject collindingObject;
         public Vector3 Normal { get { return normal; } } //Split normal in two fields for debug reasons
         public GameObject CollidingObject { get { return collindingObject; } }
+        
+        //! The type of ground the character is interacting with
+        public GroundType Ground;
 
-        //! true if the character is on walkable ground
-        public GroundType Ground
-        {
-            get
-            {
-                if (normal.sqrMagnitude == 0)
-                    return GroundType.None;
-                
-                float angleVertical = Vector3.Angle(Vector3.up, normal);
-                float angleHorizontal = Vector3.SignedAngle(transform.forward, normal, Vector3.up);
-                if (angleVertical <= WalkAngleTolerance)
-                    return GroundType.Walkable;
-
-                if (Mathf.Abs(angleVertical - 90) < WallRunAngleVerticalTolerance /*&& Mathf.Abs(angleHorizontal) < WallRunAngleHorizontalTolerance*/)
-                    return GroundType.WallRunnable;
-
-                return GroundType.None;
-            }
-        }
 
         private void Update()
         {
-            normal = Vector3.zero;
+            normal = Vector3.down;
             collindingObject = null;
             foreach (var pair in normals)
                 if (pair.Value.y > normal.y)
@@ -63,15 +47,41 @@ namespace Character
                     normal = pair.Value;
                     collindingObject = pair.Key.gameObject;
                 }
+
+            Ground = UpdateGourndType();
+        }
+        
+        GroundType UpdateGourndType()
+        {
+            if (normal.sqrMagnitude == 0)
+                return GroundType.None;
+
+            float angleVertical = Vector3.Angle(Vector3.up, normal);
+            if (angleVertical <= WalkAngleTolerance)
+                return GroundType.Walkable;
+
+            float angleHorizontal = Vector3.SignedAngle(transform.forward, -normal, Vector3.up);
+
+            if (Mathf.Abs(angleVertical - 90) < WallRunAngleVerticalTolerance)
+                if (Mathf.Abs(angleHorizontal) < WallClimbAngleHorizontalTolerance)
+                    return GroundType.WallClimbable;
+                else
+                    return GroundType.WallRunnable;
+
+            return GroundType.None;
         }
 
         private void OnCollisionStay(Collision collision)
         {
-            Vector3 n = Vector3.zero;
+            Vector3? n = null;
             for (int i = 0; i < collision.contactCount; i++)
-                if (collision.GetContact(i).normal.y > n.y)
+            {
+                Vector3 normal = collision.GetContact(i).normal;
+                if (!n.HasValue || (normal.y > n.Value.y && normal.sqrMagnitude > 0.01f))
                     n = collision.GetContact(i).normal;
-            normals[collision.collider] = n;
+            }
+
+            normals[collision.collider] = n.Value;
         }
 
 

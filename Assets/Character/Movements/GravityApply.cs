@@ -42,6 +42,8 @@ namespace Character
             }
         }
 
+        public bool Falling { get { return rb.velocity.y < 0; } }
+
         private void Start()
         {
             rb = GetComponentInChildren<Rigidbody>();
