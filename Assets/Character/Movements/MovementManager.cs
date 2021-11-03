@@ -15,6 +15,7 @@ namespace Character
         CharacterRotation rotation;
         Jump jump;
         WallRunner wallRunner;
+        WallClimber wallClimber;
 
         private void Awake()
         {
@@ -24,6 +25,7 @@ namespace Character
             rotation = GetComponentInChildren<CharacterRotation>();
             jump = GetComponentInChildren<Jump>();
             wallRunner = GetComponentInChildren<WallRunner>();
+            wallClimber = GetComponentInChildren<WallClimber>();
         }
 
         void Update()
@@ -34,6 +36,7 @@ namespace Character
             rotation?.LookAround(input);
             jump?.TryJump(input);
             wallRunner?.TryWallRun();
+            wallClimber?.TryWallClimb();
             gravity?.GravityPush();
         }
     }

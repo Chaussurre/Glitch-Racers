@@ -275,6 +275,7 @@ GameObject:
   - component: {fileID: 6072165527746350565}
   - component: {fileID: 6584330101298832286}
   - component: {fileID: 626757308}
+  - component: {fileID: 6027663176926279510}
   m_Layer: 0
   m_Name: Physics
   m_TagString: Untagged
@@ -329,7 +330,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   WalkAngleTolerance: 30
   WallRunAngleVerticalTolerance: 5
-  WallRunAngleHorizontalTolerance: 30
+  WallClimbAngleHorizontalTolerance: 50.9
+  Ground: 0
 --- !u!114 &1202285975256145662
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -359,9 +361,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minSpeedForward: 5
-  acceleration: 3
+  acceleration: 6
   decceleration: 5
-  maxSpeedForward: 10
+  maxSpeedForward: 20
   speedSide: 4
 --- !u!114 &6072165527746350565
 MonoBehaviour:
@@ -387,7 +389,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cb794e31f5ca2748b91f6e881db8c30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  jumpStrength: 5
+  jumpStrength: 15
   HoldJumpGravitySensibility: 0.5
 --- !u!114 &626757308
 MonoBehaviour:
@@ -401,4 +403,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51919f2634b726d46b10222ac8262b23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WallRunGravitySensibility: 0
+  WallRunGravitySensibility: 0.75
+  WallRunSpeed: 15
+--- !u!114 &6027663176926279510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7064976624339669981}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3f7ee89aa7cbcf74d80349c01d1c7f6c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WallClimbGravitySensibility: 0.5

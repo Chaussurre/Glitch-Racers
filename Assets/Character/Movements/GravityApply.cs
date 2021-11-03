@@ -42,6 +42,8 @@ namespace Character
             }
         }
 
+        public bool Falling { get { return rb.velocity.y < 0; } }
+
         private void Start()
         {
             rb = GetComponentInChildren<Rigidbody>();
@@ -53,7 +55,7 @@ namespace Character
             if (!isActiveAndEnabled)
                 return;
 
-            rb.AddForce(Physics.gravity * GravitySensibilty);
+            rb.velocity += Physics.gravity * GravitySensibilty * Time.deltaTime;
         }
     }
 }

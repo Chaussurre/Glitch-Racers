@@ -43,10 +43,8 @@ namespace Character
 
             if(wallRunning)
             {
-                if (Vector3.Dot(transform.forward, direction) < 0)
-                    direction *= -1;
                 WallRun();
-                rigidbody.AddForce(-normal);
+                rigidbody.velocity += -normal;
             }
         }
 
@@ -54,21 +52,21 @@ namespace Character
         {
             if (!wallRunning)
             {
-                Debug.Log("Start wall run");
                 wallRunning = true;
                 gravity.SetSensibility(gravitySensitivityName, WallRunGravitySensibility);
                 wall = ground.CollidingObject;
                 normal = ground.Normal.normalized;
                 direction = Vector3.Cross(Vector3.up, normal);
+                if (Vector3.Dot(transform.forward, direction) < 0)
+                    direction *= -1;
             }
         }
 
         void StopWallRun()
         {
-            if (wallRunning)
-                Debug.Log("Stop wall run");
             wallRunning = false;
             gravity.RemoveSensibility(gravitySensitivityName);
+            wall = null;
         }
         
         public void WallRun()
