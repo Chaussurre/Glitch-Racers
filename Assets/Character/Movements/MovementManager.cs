@@ -16,6 +16,7 @@ namespace Character
         Jump jump;
         WallRunner wallRunner;
         WallClimber wallClimber;
+        LedgeCatcher LedgeCatcher;
 
         private void Awake()
         {
@@ -26,6 +27,7 @@ namespace Character
             jump = GetComponentInChildren<Jump>();
             wallRunner = GetComponentInChildren<WallRunner>();
             wallClimber = GetComponentInChildren<WallClimber>();
+            LedgeCatcher = GetComponentInChildren<LedgeCatcher>();
         }
 
         void Update()
@@ -38,6 +40,7 @@ namespace Character
             wallRunner?.TryWallRun();
             wallClimber?.TryWallClimb();
             gravity?.GravityPush();
+            LedgeCatcher?.TryCatchLedge();
         }
     }
 }
