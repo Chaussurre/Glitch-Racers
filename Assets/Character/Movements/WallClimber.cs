@@ -26,7 +26,7 @@ namespace Character
             gravity = GetComponentInChildren<GravityApply>();
         }
 
-        public void TryWallRun()
+        public void TryWallClimb()
         {
             if (ground.Ground == GroundDetector.GroundType.WallClimbable)
                 StartWallClimb();

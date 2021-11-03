@@ -55,7 +55,7 @@ namespace Character
             if (!isActiveAndEnabled)
                 return;
 
-            rb.AddForce(Physics.gravity * GravitySensibilty);
+            rb.velocity += Physics.gravity * GravitySensibilty * Time.deltaTime;
         }
     }
 }
