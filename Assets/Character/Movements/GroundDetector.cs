@@ -97,9 +97,9 @@ namespace Character
             for (int i = 0; i < rayCount; i++)
             {
                 Gizmos.color = Color.magenta;
-                Gizmos.DrawRay(transform.position + Vector3.down, Quaternion.Euler(0, 360 / rayCount * i, WalkAngleTolerance) * Vector3.up);
+                Gizmos.DrawRay(transform.position + Vector3.down * 2, Quaternion.Euler(0, 360 / rayCount * i, WalkAngleTolerance) * Vector3.up);
                 Gizmos.color = Color.green;
-                Gizmos.DrawRay(transform.position + Vector3.down, Quaternion.Euler(0, 360 / rayCount * i, WalkAngleTolerance + 90) * Vector3.up);
+                Gizmos.DrawRay(transform.position + Vector3.down * 2, Quaternion.Euler(0, 360 / rayCount * i, WalkAngleTolerance + 90) * Vector3.up);
 
                 if(Normal != Vector3.zero)
                 {
