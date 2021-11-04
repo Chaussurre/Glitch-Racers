@@ -14,10 +14,17 @@ namespace Character.IA
         [SerializeField]
         GameObject body;
 
-        //! \todo implement GetDirection
         protected override Vector3 GetWalkDirection()
         {
             return target.transform.position - body.transform.position;
+        }
+
+        protected override Vector3 GetCameraDirection()
+        {
+            float horizontal = Vector3.SignedAngle(body.transform.forward, target.transform.position - body.transform.position, Vector3.up);
+            float vertical = Vector3.SignedAngle(body.transform.forward, target.transform.position - body.transform.position, body.transform.right);
+
+            return new Vector3(horizontal, vertical);
         }
     }
 }
