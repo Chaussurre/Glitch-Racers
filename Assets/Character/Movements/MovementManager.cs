@@ -40,7 +40,7 @@ namespace Character
             wallRunner?.TryWallRun();
             wallClimber?.TryWallClimb();
             gravity?.GravityPush();
-            LedgeCatcher?.TryCatchLedge();
+            LedgeCatcher?.TryCatchLedge(input);
         }
     }
 }
