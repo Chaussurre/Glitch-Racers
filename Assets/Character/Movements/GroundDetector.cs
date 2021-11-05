@@ -32,9 +32,9 @@ namespace Character
         private GameObject collindingObject;
         public Vector3 Normal { get { return normal; } } //Split normal in two fields for debug reasons
         public GameObject CollidingObject { get { return collindingObject; } }
-        
+
         //! The type of ground the character is interacting with
-        public GroundType Ground;
+        public GroundType Ground { get; private set; }
 
 
         private void Update()

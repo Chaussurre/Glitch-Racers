@@ -66,7 +66,9 @@ namespace Character
             bool backwardInput = Vector3.Dot(input, transform.forward) < 0;
             bool backwardVel = Vector3.Dot(transform.forward, velocity) < 0;
             
-            if (input.sqrMagnitude < 0.1f || (backwardInput && !backwardVel && velocity.sqrMagnitude > 0.1f))
+            if (input.sqrMagnitude < 0.1f 
+                || (backwardInput && !backwardVel && velocity.sqrMagnitude > 0.1f) 
+                || (!backwardInput && backwardVel && velocity.sqrMagnitude > 0.1f))
                 return velocity - velocity * decceleration * Time.deltaTime;
 
             if (backwardInput && velocity.magnitude <= minSpeedForward)
