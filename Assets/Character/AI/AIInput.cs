@@ -8,7 +8,9 @@ namespace Character.IA
     //! Handle the decisions for the AI
     public class AIInput : InputController
     {
-        [SerializeField]
+        [SerializeField] private List<GameObject> Targets = new List<GameObject>();
+        private int incrementI;
+        
         GameObject target;
 
         [SerializeField]
@@ -26,5 +28,19 @@ namespace Character.IA
 
             return new Vector3(horizontal, vertical);
         }
+
+        private void Update()
+        {
+            target = Targets[incrementI];
+            if (Vector3.Distance(body.transform.position, target.transform.position) < 1)
+            {
+                incrementI++;
+                if (incrementI == Targets.Count)
+                {
+                    incrementI = 0;
+                }
+            }
+        }
+        
     }
 }

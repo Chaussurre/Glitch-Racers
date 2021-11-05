@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d8eaf65a-4e1a-44ac-9c10-166c44172234" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/Character/AI/AI Character Variant.prefab" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Character/AI/AI Character Variant.prefab" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Glitch-Racers/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Glitch-Racers/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Character/AI/AIInput.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Character/AI/AIInput.cs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Assets/Scenes/AI.unity" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Scenes/AI.unity" afterDir="false" />
     </list>
@@ -67,7 +67,8 @@
       <workItem from="1635932250096" duration="8771000" />
       <workItem from="1635945276675" duration="5799000" />
       <workItem from="1635973484449" duration="689000" />
-      <workItem from="1636033033176" duration="1296000" />
+      <workItem from="1636033033176" duration="2872000" />
+      <workItem from="1636141850147" duration="1412000" />
     </task>
     <servers />
   </component>
