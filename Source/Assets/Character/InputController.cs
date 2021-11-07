@@ -15,6 +15,8 @@ namespace Character
         public bool HoldJump;
         //! Rotation of the Camera
         public Vector3 Camera;
+        //! The grappling hook
+        public bool Hook;
     }
 
     //!Gives the character Input to MovementManager
@@ -27,6 +29,7 @@ namespace Character
             input.WalkDirection = GetWalkDirection();
             input.Jump = GetJump(out input.HoldJump);
             input.Camera = GetCameraDirection();
+            input.Hook = GetHooking();
             return input;
         }
 
@@ -44,6 +47,11 @@ namespace Character
         virtual protected Vector3 GetCameraDirection()
         {
             return Vector3.zero;
+        }
+
+        virtual protected bool GetHooking()
+        {
+            return false;
         }
     }
 }

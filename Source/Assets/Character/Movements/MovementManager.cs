@@ -17,6 +17,7 @@ namespace Character
         WallRunner wallRunner;
         WallClimber wallClimber;
         LedgeCatcher LedgeCatcher;
+        GrapplingHookShooter hookShooter;
 
         private void Awake()
         {
@@ -28,12 +29,14 @@ namespace Character
             wallRunner = GetComponentInChildren<WallRunner>();
             wallClimber = GetComponentInChildren<WallClimber>();
             LedgeCatcher = GetComponentInChildren<LedgeCatcher>();
+            hookShooter = GetComponentInChildren<GrapplingHookShooter>();
         }
 
         void Update()
         {
             CharacterInput input = inputController.GetInput();
 
+            hookShooter.tryShoot(input);
             walker?.Walk(input);
             rotation?.LookAround(input);
             jump?.TryJump(input);

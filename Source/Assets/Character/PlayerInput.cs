@@ -13,6 +13,7 @@ namespace Character.Player
         private void Start()
         {
             rb = GetComponentInChildren<Rigidbody>();
+            Cursor.lockState = CursorLockMode.Locked;
         }
 
         protected override Vector3 GetWalkDirection()
@@ -38,6 +39,11 @@ namespace Character.Player
             camDirection.y = Input.GetAxis("Mouse Y");
 
             return camDirection;
+        }
+
+        protected override bool GetHooking()
+        {
+            return Input.GetMouseButton(0);
         }
     }
 }

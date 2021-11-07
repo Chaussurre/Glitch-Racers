@@ -460,7 +460,7 @@ GameObject:
   - component: {fileID: 1154278127}
   - component: {fileID: 1154278126}
   m_Layer: 0
-  m_Name: wall (2)
+  m_Name: plateform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -654,7 +654,7 @@ GameObject:
   - component: {fileID: 1770432659}
   - component: {fileID: 1770432658}
   m_Layer: 0
-  m_Name: wall (1)
+  m_Name: plateform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -745,29 +745,9 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3457985020272400142, guid: acef4a94ba202994d9289c5223f730b2, type: 3}
-      propertyPath: HoldJumpGravitySensibility
-      value: 0.761
-      objectReference: {fileID: 0}
     - target: {fileID: 5158598033147844669, guid: acef4a94ba202994d9289c5223f730b2, type: 3}
       propertyPath: m_Name
       value: Character
-      objectReference: {fileID: 0}
-    - target: {fileID: 6577269906995861774, guid: acef4a94ba202994d9289c5223f730b2, type: 3}
-      propertyPath: LedgeMaxHeight
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6577269906995861774, guid: acef4a94ba202994d9289c5223f730b2, type: 3}
-      propertyPath: LedgeMinHeight
-      value: 1.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 6577269906995861774, guid: acef4a94ba202994d9289c5223f730b2, type: 3}
-      propertyPath: LedgeCheckerMaxHeight
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6577269906995861774, guid: acef4a94ba202994d9289c5223f730b2, type: 3}
-      propertyPath: LedgeCheckerMinHeight
-      value: 0.19
       objectReference: {fileID: 0}
     - target: {fileID: 7507456116696335997, guid: acef4a94ba202994d9289c5223f730b2, type: 3}
       propertyPath: m_RootOrder

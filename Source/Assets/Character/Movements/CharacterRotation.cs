@@ -8,7 +8,7 @@ namespace Character
      */
     public class CharacterRotation : MonoBehaviour
     {
-        [SerializeField, Range(-45, -15)]
+        [SerializeField, Range(-70, -15)]
         [Tooltip("comment")]
         private int minAngle = -30;
         [Range(30, 80)]
