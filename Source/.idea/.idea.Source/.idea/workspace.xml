@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5d7ef80c-6ffe-4123-a6ad-78d72c8e89ef" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/Assets/Character/AI/AIInput.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Character/AI/AIInput.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Assets/Character/Movements/CharacterRotation.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Character/Movements/CharacterRotation.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.idea.Source/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/.idea.Source/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Assets/Character/AI/PathTarget.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Assets/Character/AI/PathTarget.cs" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,7 +60,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1636396928635</updated>
-      <workItem from="1636396938877" duration="2549000" />
+      <workItem from="1636396938877" duration="4527000" />
     </task>
     <servers />
   </component>
