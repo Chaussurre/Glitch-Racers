@@ -30,8 +30,8 @@ namespace Character
 
         public void LookAround(CharacterInput input)
         {
-            target.x -= input.Camera.y * sensitivity * Time.deltaTime;
-            rotation.y += input.Camera.x * sensitivity * Time.deltaTime;
+            target.x -= input.Camera.y;
+            rotation.y += input.Camera.x;
             target.x = Mathf.Clamp(target.x, minAngle, maxAngle);
 
             TargetTransform.localEulerAngles = target;
