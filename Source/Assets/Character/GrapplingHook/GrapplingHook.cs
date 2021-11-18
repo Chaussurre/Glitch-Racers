@@ -6,25 +6,24 @@ namespace Character
 {
     public class GrapplingHook : MonoBehaviour
     {
-        [SerializeField]
-        [Tooltip("The acceleration the character can have while moving and balancind")]
-        Transform hand;
         [SerializeField, Range(0, 10)]
-        [Tooltip("The acceleration the character can have while moving and balancind")]
+        [Tooltip("The acceleration the character can have while moving and balancing")]
         float HookedAcceleration;
 
+
         GameObject hookedObject;
-        Vector3 hookedPoint;
+        public Vector3 HookedPoint { get { return hookedObject.transform.position + relativPos; } }
         public bool Hooking { get { return hookedObject != null; } }
 
         Vector3 relativPos;
         Rigidbody rb;
 
-        float MaxDistance;
+        public float MaxDistance { get; private set; }
+
+        public bool IsAtMaxDistance { get { return Vector3.Distance(rb.transform.position, HookedPoint) >= MaxDistance - 0.1f; } }
 
         public void Hook(RaycastHit hit)
         {
-            hookedPoint = hit.point;
             hookedObject = hit.collider.gameObject;
             relativPos = hit.point - hookedObject.transform.position;
             transform.parent = null;
@@ -34,9 +33,6 @@ namespace Character
         public void ResetHook()
         {
             hookedObject = null;
-            transform.parent = rb.transform;
-            transform.localScale = Vector3.zero;
-            transform.localPosition = Vector3.zero;
         }
 
         private void Start()
@@ -44,7 +40,7 @@ namespace Character
             rb = GetComponentInParent<Rigidbody>();
         }
 
-        public void UpdqteHook(CharacterInput input)
+        public void UpdateHook(CharacterInput input)
         {
             if (Hooking)
                 WhileHooking(input);
@@ -52,19 +48,13 @@ namespace Character
 
         void WhileHooking(CharacterInput input)
         {
-            Vector3 relativBodyPos = rb.transform.position - hookedPoint;
-            Vector3 relativHandPos = hand.position - hookedPoint;
-
-            transform.position = Vector3.Lerp(hookedObject.transform.position + relativPos, hand.position, 0.5f);
-            transform.localScale = new Vector3(.1f, relativHandPos.magnitude / 2, .1f);
-            transform.rotation = Quaternion.LookRotation(relativHandPos);
-            transform.rotation = Quaternion.LookRotation(transform.up);
+            Vector3 relativBodyPos = rb.transform.position - HookedPoint;
 
             if (relativBodyPos.magnitude >= MaxDistance)
             {
                 rb.velocity += Vector3.ProjectOnPlane(input.WalkDirection, Vector3.up) * HookedAcceleration * Time.deltaTime;
 
-                rb.transform.position = hookedPoint + relativBodyPos.normalized * MaxDistance;
+                rb.transform.position = HookedPoint + relativBodyPos.normalized * MaxDistance;
                 if (Vector3.Dot(rb.velocity, relativBodyPos) > 0)
                     rb.velocity = Vector3.ProjectOnPlane(rb.velocity, relativBodyPos);
             }

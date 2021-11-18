@@ -24,10 +24,10 @@ namespace Character
                 if (!grapplingHook.Hooking && Physics.Raycast(viewPoint.position, viewPoint.forward, out RaycastHit hit))
                     grapplingHook.Hook(hit);
             }
-            else
-                grapplingHook.ResetHook();
+            //else
+            //    grapplingHook.ResetHook();
 
-            grapplingHook.UpdqteHook(input);
+            grapplingHook.UpdateHook(input);
         }
     }
 }
