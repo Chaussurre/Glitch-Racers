@@ -1,6 +1,6 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace Character
 {
@@ -15,45 +15,60 @@ namespace Character
         public int maxAngle = 45;
         [Range(50, 500)]
         public int sensitivity = 200;
+        [FormerlySerializedAs("TargetTransform")]
         [SerializeField]
         [Tooltip("The target object for vertical rotations")]
-        Transform TargetTransform;
+        private Transform targetTransform;
 
-        [SerializeField]
-        private bool isLocked;
-        
-        Vector3 rotation;
-        Vector3 target;
+        private bool _isLocked;
+
+        private readonly Dictionary<string, bool> _lockedList = new();
+
+        private Vector3 _rotation;
+        private Vector3 _target;
 
         private void Start()
         {
-            rotation = transform.rotation.eulerAngles;
-            target = TargetTransform.transform.localRotation.eulerAngles;
+            _rotation = transform.rotation.eulerAngles;
+            _target = targetTransform.transform.localRotation.eulerAngles;
         }
-
-        public void LockCharacter(bool locked)
+        
+        //! Store the status of the name passed in parameter in a dictionary
+        public void SetIsLocked(string funcName, bool lockStatus)
         {
-            isLocked = locked;
+            _lockedList.Add(funcName, lockStatus);
+        }
+        
+        //! Lock the camera if any of the values stored in the dictionary is true
+        public void LockCharacter()
+        {
+            foreach (var locked in _lockedList)
+            {
+                if (locked.Value)
+                {
+                    _isLocked = true;
+                }
+            }
         }
 
         public void LookAround(CharacterInput input)
         {
-            target.x -= input.Camera.y * sensitivity * Time.deltaTime;
-            target.x = Mathf.Clamp(target.x, minAngle, maxAngle);
+            _target.x -= input.Camera.y * sensitivity * Time.deltaTime;
+            _target.x = Mathf.Clamp(_target.x, minAngle, maxAngle);
 
-            if(!isLocked)
+            if(!_isLocked)
             {
-                rotation.y += target.y;
-                target.y = 0;
-                rotation.y += input.Camera.x * sensitivity * Time.deltaTime;
-                transform.localEulerAngles = rotation;
+                _rotation.y += _target.y;
+                _target.y = 0;
+                _rotation.y += input.Camera.x * sensitivity * Time.deltaTime;
+                transform.localEulerAngles = _rotation;
             }
             else
             {
-                target.y += input.Camera.x * sensitivity * Time.deltaTime;
+                _target.y += input.Camera.x * sensitivity * Time.deltaTime;
             }
             
-            TargetTransform.localEulerAngles = target;
+            targetTransform.localEulerAngles = _target;
         }
     }
 }
