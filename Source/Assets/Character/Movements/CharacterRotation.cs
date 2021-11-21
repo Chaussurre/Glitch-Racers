@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 namespace Character
 {
@@ -11,64 +10,69 @@ namespace Character
         [SerializeField, Range(-45, -15)]
         [Tooltip("comment")]
         private int minAngle = -30;
+        
         [Range(30, 80)]
         public int maxAngle = 45;
+        
         [Range(50, 500)]
         public int sensitivity = 200;
-        [FormerlySerializedAs("TargetTransform")]
+        
         [SerializeField]
         [Tooltip("The target object for vertical rotations")]
         private Transform targetTransform;
 
-        private bool _isLocked;
+        private bool IsLocked
+        {
+            get => true;
+            set => IsLocked = LockCharacter();
+        }
+        
+        private readonly HashSet<string> lockedList = new();
 
-        private readonly Dictionary<string, bool> _lockedList = new();
-
-        private Vector3 _rotation;
-        private Vector3 _target;
+        private Vector3 rotation;
+        private Vector3 target;
 
         private void Start()
         {
-            _rotation = transform.rotation.eulerAngles;
-            _target = targetTransform.transform.localRotation.eulerAngles;
+            rotation = transform.rotation.eulerAngles;
+            target = targetTransform.transform.localRotation.eulerAngles;
         }
         
-        //! Store the status of the name passed in parameter in a dictionary
-        public void SetIsLocked(string funcName, bool lockStatus)
+        //! Store the status of the name passed in parameter in a hashset
+        public void SetIsLocked(string funcName)
         {
-            _lockedList.Add(funcName, lockStatus);
+            lockedList.Add(funcName);
+        }
+
+        public void RemoveIsLocked(string funcName)
+        {
+            lockedList.Remove(funcName);
         }
         
         //! Lock the camera if any of the values stored in the dictionary is true
-        public void LockCharacter()
+        public bool LockCharacter()
         {
-            foreach (var locked in _lockedList)
-            {
-                if (locked.Value)
-                {
-                    _isLocked = true;
-                }
-            }
+            return lockedList.Count != 0;
         }
 
         public void LookAround(CharacterInput input)
         {
-            _target.x -= input.Camera.y * sensitivity * Time.deltaTime;
-            _target.x = Mathf.Clamp(_target.x, minAngle, maxAngle);
+            target.x -= input.Camera.y * sensitivity * Time.deltaTime;
+            target.x = Mathf.Clamp(target.x, minAngle, maxAngle);
 
-            if(!_isLocked)
+            if(!IsLocked)
             {
-                _rotation.y += _target.y;
-                _target.y = 0;
-                _rotation.y += input.Camera.x * sensitivity * Time.deltaTime;
-                transform.localEulerAngles = _rotation;
+                rotation.y += target.y;
+                target.y = 0;
+                rotation.y += input.Camera.x * sensitivity * Time.deltaTime;
+                transform.localEulerAngles = rotation;
             }
             else
             {
-                _target.y += input.Camera.x * sensitivity * Time.deltaTime;
+                target.y += input.Camera.x * sensitivity * Time.deltaTime;
             }
             
-            targetTransform.localEulerAngles = _target;
+            targetTransform.localEulerAngles = target;
         }
     }
 }
