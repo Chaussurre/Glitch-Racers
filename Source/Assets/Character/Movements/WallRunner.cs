@@ -18,13 +18,14 @@ namespace Character
         GroundDetector ground;
         GravityApply gravity;
         GrapplingHookShooter grapplingHook;
+        CharacterRotation characterRotation;
         
         bool wallRunning = false;
         GameObject wall = null;
         Vector3 normal;
         Vector3 direction;
 
-        readonly string gravitySensitivityName = "Wall Run";
+        readonly string ActionLockName = "Wall Run";
 
         private void Start()
         {
@@ -32,6 +33,7 @@ namespace Character
             ground = GetComponentInChildren<GroundDetector>();
             gravity = GetComponentInChildren<GravityApply>();
             grapplingHook = GetComponentInChildren<GrapplingHookShooter>();
+            characterRotation = GetComponentInChildren<CharacterRotation>();
         }
 
         public void TryWallRun()
@@ -57,7 +59,8 @@ namespace Character
             if (!wallRunning)
             {
                 wallRunning = true;
-                gravity.SetSensibility(gravitySensitivityName, WallRunGravitySensibility);
+                characterRotation.SetIsLocked(ActionLockName);
+                gravity.SetSensibility(ActionLockName, WallRunGravitySensibility);
                 wall = ground.CollidingObject;
                 normal = ground.Normal.normalized;
                 direction = Vector3.Cross(Vector3.up, normal);
@@ -69,7 +72,8 @@ namespace Character
         void StopWallRun()
         {
             wallRunning = false;
-            gravity.RemoveSensibility(gravitySensitivityName);
+            gravity.RemoveSensibility(ActionLockName);
+            characterRotation.RemoveIsLocked(ActionLockName);
             wall = null;
         }
         

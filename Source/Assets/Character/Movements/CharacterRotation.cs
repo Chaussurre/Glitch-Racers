@@ -21,13 +21,12 @@ namespace Character
         [Tooltip("The target object for vertical rotations")]
         private Transform targetTransform;
 
-        private bool IsLocked
+        public bool IsLocked
         {
-            get => true;
-            set => IsLocked = LockCharacter();
+            get { return lockedList.Count > 0; }
         }
         
-        private readonly HashSet<string> lockedList = new();
+        private readonly HashSet<string> lockedList = new HashSet<string>();
 
         private Vector3 rotation;
         private Vector3 target;
@@ -48,15 +47,14 @@ namespace Character
         {
             lockedList.Remove(funcName);
         }
-        
-        //! Lock the camera if any of the values stored in the dictionary is true
-        public bool LockCharacter()
-        {
-            return lockedList.Count != 0;
-        }
 
         public void LookAround(CharacterInput input)
         {
+            string s = "Rotation locked : {IsLocked} :";
+            foreach (var l in lockedList)
+                s += l;
+            Debug.Log(s);
+
             target.x -= input.Camera.y * sensitivity * Time.deltaTime;
             target.x = Mathf.Clamp(target.x, minAngle, maxAngle);
 

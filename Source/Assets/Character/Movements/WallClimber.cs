@@ -14,11 +14,12 @@ namespace Character
         GroundDetector ground;
         GravityApply gravity;
         GrapplingHookShooter grapplingHook;
+        CharacterRotation characterRotation;
 
         GameObject wall = null;
         Vector3 normal;
 
-        readonly string gravitySensitivityName = "Wall Climb";
+        readonly string ActionLockName = "Wall Climb";
 
         private void Start()
         {
@@ -26,6 +27,7 @@ namespace Character
             ground = GetComponentInChildren<GroundDetector>();
             gravity = GetComponentInChildren<GravityApply>();
             grapplingHook = GetComponentInChildren<GrapplingHookShooter>();
+            characterRotation = GetComponentInChildren<CharacterRotation>();
         }
 
         public void TryWallClimb()
@@ -46,14 +48,16 @@ namespace Character
 
         void StartWallClimb()
         {
-            gravity.SetSensibility(gravitySensitivityName, WallClimbGravitySensibility);
+            gravity.SetSensibility(ActionLockName, WallClimbGravitySensibility);
+            characterRotation.SetIsLocked(ActionLockName);
             wall = ground.CollidingObject;
             normal = ground.Normal.normalized;
         }
 
         void StopWallClimb()
         {
-            gravity.RemoveSensibility(gravitySensitivityName);
+            gravity.RemoveSensibility(ActionLockName);
+            characterRotation.RemoveIsLocked(ActionLockName);
             wall = null;
         }
 

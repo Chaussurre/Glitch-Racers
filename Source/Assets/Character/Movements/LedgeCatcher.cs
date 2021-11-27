@@ -20,15 +20,19 @@ namespace Character
         Rigidbody rb;
         GroundDetector ground;
         GrapplingHookShooter grapplingHook;
+        CharacterRotation characterRotation;
 
         Vector3? CatchedPoint = null;
         bool climbing = false;
+
+        readonly string ActionLockName = "Ledge catcher";
 
         private void Start()
         {
             rb = GetComponent<Rigidbody>();
             ground = GetComponent<GroundDetector>();
             grapplingHook = GetComponent<GrapplingHookShooter>();
+            characterRotation = GetComponent<CharacterRotation>();
         }
 
         public void TryCatchLedge(CharacterInput input)
@@ -46,6 +50,7 @@ namespace Character
 
             if (grapplingHook.IsHooking)
             {
+                characterRotation.RemoveIsLocked(ActionLockName);
                 CatchedPoint = null;
                 return;
             }
@@ -57,6 +62,7 @@ namespace Character
         IEnumerator Climb()
         {
             climbing = true;
+            characterRotation.SetIsLocked(ActionLockName);
             Vector3 start = transform.position;
             Vector3 mid = transform.position + Vector3.up * (LedgeMaxHeight + .3f) 
                 + Vector3.Project(CatchedPoint.Value - transform.position, Vector3.up);
@@ -77,6 +83,7 @@ namespace Character
                 yield return new WaitForEndOfFrame();
             }
 
+            characterRotation.RemoveIsLocked(ActionLockName);
             transform.position = end;
             climbing = false;
             CatchedPoint = null;
@@ -101,7 +108,10 @@ namespace Character
 
             float? height = GetLedgeHeight(out Vector3? point);
             if (height.HasValue && height.Value > LedgeMinHeight)
+            {
+                characterRotation.SetIsLocked(ActionLockName);
                 CatchedPoint = point;
+            }
         }
 
         float? GetLedgeHeight(out Vector3? point)
