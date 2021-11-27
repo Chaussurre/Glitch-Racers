@@ -17,6 +17,7 @@ namespace Character
         new Rigidbody rigidbody;
         GroundDetector ground;
         GravityApply gravity;
+        GrapplingHookShooter grapplingHook;
         
         bool wallRunning = false;
         GameObject wall = null;
@@ -30,15 +31,18 @@ namespace Character
             rigidbody = GetComponentInChildren<Rigidbody>();
             ground = GetComponentInChildren<GroundDetector>();
             gravity = GetComponentInChildren<GravityApply>();
+            grapplingHook = GetComponentInChildren<GrapplingHookShooter>();
         }
 
         public void TryWallRun()
         {
-            if (ground.Ground == GroundDetector.GroundType.WallRunnable)
+            if (ground.Ground == GroundDetector.GroundType.WallRunnable && !grapplingHook.IsHooking)
                 StartWallRun();
             else if (ground.Ground == GroundDetector.GroundType.Walkable) //Reached ground
                 StopWallRun();
             else if (!Physics.Raycast(transform.position, -normal, out RaycastHit hit) || hit.collider.gameObject != wall) //No longer next to the wall
+                StopWallRun();
+            else if (grapplingHook.IsHooking) //Started to hook something
                 StopWallRun();
 
             if(wallRunning)

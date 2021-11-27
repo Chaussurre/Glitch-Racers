@@ -19,6 +19,7 @@ namespace Character
 
         Rigidbody rb;
         GroundDetector ground;
+        GrapplingHookShooter grapplingHook;
 
         Vector3? CatchedPoint = null;
         bool climbing = false;
@@ -27,6 +28,7 @@ namespace Character
         {
             rb = GetComponent<Rigidbody>();
             ground = GetComponent<GroundDetector>();
+            grapplingHook = GetComponent<GrapplingHookShooter>();
         }
 
         public void TryCatchLedge(CharacterInput input)
@@ -42,10 +44,14 @@ namespace Character
         {
             rb.velocity = Vector3.zero;
 
-            if(input.Jump && !climbing)
+            if (grapplingHook.IsHooking)
             {
-                StartCoroutine(Climb());
+                CatchedPoint = null;
+                return;
             }
+
+            if(input.Jump && !climbing)
+                StartCoroutine(Climb());
         }
 
         IEnumerator Climb()
@@ -79,6 +85,9 @@ namespace Character
         void Catching()
         {
             CatchedPoint = null;
+
+            if (grapplingHook.IsHooking)
+                return;
 
             if (ground.Ground == GroundDetector.GroundType.Walkable)
                 return;
