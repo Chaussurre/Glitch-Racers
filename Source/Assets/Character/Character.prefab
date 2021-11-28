@@ -146,6 +146,7 @@ MonoBehaviour:
   hand: {fileID: 3561548457415650073}
   StraightHookDisplay: {fileID: 5541512478460589768}
   segmentPrefab: {fileID: 0}
+  DistanceSegment: 0
 --- !u!1 &1802829739980451810
 GameObject:
   m_ObjectHideFlags: 0
@@ -559,7 +560,7 @@ MonoBehaviour:
   minAngle: -60
   maxAngle: 60
   sensitivity: 200
-  TargetTransform: {fileID: 3660468198722874745}
+  targetTransform: {fileID: 3660468198722874745}
 --- !u!114 &3398364982643933808
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -589,6 +590,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8383ce51bb8cf45408ec159761792355, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  RotationSpeed: 200
 --- !u!114 &6584330101298832286
 MonoBehaviour:
   m_ObjectHideFlags: 0

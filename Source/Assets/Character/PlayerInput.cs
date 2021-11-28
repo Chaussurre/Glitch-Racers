@@ -7,7 +7,6 @@ namespace Character.Player
     //! InputController for the player
     public class PlayerInput : InputController
     {
-
         Rigidbody rb;
 
         private void Start()
@@ -20,10 +19,8 @@ namespace Character.Player
         {
             float x = Input.GetAxis("Horizontal");
             float z = Input.GetAxis("Vertical");
-
-            Quaternion rotationInput = Quaternion.Euler(0, Vector3.SignedAngle(Vector3.forward, rb.transform.forward, Vector3.up), 0);
             
-            return rotationInput * new Vector3(x, 0, z);
+            return x * rb.transform.right + z * rb.transform.forward;
         }
 
         protected override bool GetJump(out bool hold)

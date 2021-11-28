@@ -39,14 +39,19 @@ namespace Character
 
         private void Update()
         {
-            normal = Vector3.down;
+            normal = -transform.up;
             collindingObject = null;
+            float dot = -1;
             foreach (var pair in normals)
-                if (pair.Value.y > normal.y)
+            {
+                float newDot = Vector3.Dot(pair.Value, transform.up);
+                if (newDot > dot)
                 {
                     normal = pair.Value;
+                    dot = newDot;
                     collindingObject = pair.Key.gameObject;
                 }
+            }
 
             Ground = UpdateGourndType();
         }
@@ -56,11 +61,11 @@ namespace Character
             if (normal.sqrMagnitude == 0)
                 return GroundType.None;
 
-            float angleVertical = Vector3.Angle(Vector3.up, normal);
+            float angleVertical = Vector3.Angle(transform.up, normal);
             if (angleVertical <= WalkAngleTolerance)
                 return GroundType.Walkable;
 
-            float angleHorizontal = Vector3.SignedAngle(transform.forward, -normal, Vector3.up);
+            float angleHorizontal = Vector3.SignedAngle(transform.forward, -normal, transform.up);
 
             if (Mathf.Abs(angleVertical - 90) < WallRunAngleVerticalTolerance)
                 if (Mathf.Abs(angleHorizontal) < WallClimbAngleHorizontalTolerance)
@@ -97,9 +102,9 @@ namespace Character
             for (int i = 0; i < rayCount; i++)
             {
                 Gizmos.color = Color.magenta;
-                Gizmos.DrawRay(transform.position + Vector3.down * 2, Quaternion.Euler(0, 360 / rayCount * i, WalkAngleTolerance) * Vector3.up);
+                Gizmos.DrawRay(transform.position + -transform.up * 2, Quaternion.Euler(0, 360 / rayCount * i, WalkAngleTolerance) * transform.up);
                 Gizmos.color = Color.green;
-                Gizmos.DrawRay(transform.position + Vector3.down * 2, Quaternion.Euler(0, 360 / rayCount * i, WalkAngleTolerance + 90) * Vector3.up);
+                Gizmos.DrawRay(transform.position + -transform.up * 2, Quaternion.Euler(0, 360 / rayCount * i, WalkAngleTolerance + 90) * transform.up);
 
                 if(Normal != Vector3.zero)
                 {

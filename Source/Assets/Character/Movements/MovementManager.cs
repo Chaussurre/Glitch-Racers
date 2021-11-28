@@ -38,11 +38,11 @@ namespace Character
 
             hookShooter.tryShoot(input);
             walker?.Walk(input);
-            rotation?.LookAround(input);
             jump?.TryJump(input);
             wallRunner?.TryWallRun();
             wallClimber?.TryWallClimb();
             gravity?.GravityPush();
+            rotation?.LookAround(input);
             LedgeCatcher?.TryCatchLedge(input);
         }
     }

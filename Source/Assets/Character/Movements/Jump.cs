@@ -30,11 +30,11 @@ namespace Character
             if (ground.Ground == GroundDetector.GroundType.Walkable)
                 if (input.Jump)
                 {
-                    rb.velocity += Vector3.up * jumpStrength;
+                    rb.velocity += transform.up * jumpStrength;
                     gravity.SetSensibility("jump", HoldJumpGravitySensibility);
                 }
 
-            if (!input.HoldJump || Vector3.Dot(rb.velocity, Vector3.up) < 0)
+            if (!input.HoldJump || Vector3.Dot(rb.velocity, transform.up) < 0)
                 gravity.RemoveSensibility("jump");
         }
     }

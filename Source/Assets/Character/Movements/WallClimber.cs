@@ -36,7 +36,7 @@ namespace Character
                 StartWallClimb();
             else if (ground.Ground == GroundDetector.GroundType.Walkable) //Reached ground
                 StopWallClimb();
-            else if (gravity.Falling) //Stoped climbing
+            else if (gravity.IsFalling) //Stoped climbing
                 StopWallClimb();
             else if (!Physics.Raycast(transform.position, -normal, out RaycastHit hit) || hit.collider.gameObject != wall) //No longer next to the wall
                 StopWallClimb();
@@ -63,7 +63,7 @@ namespace Character
 
         void WallClimb()
         {
-            rb.velocity = Vector3.Project(rb.velocity, Vector3.up);
+            rb.velocity = Vector3.Project(rb.velocity, transform.up);
             rb.velocity += -normal;
         }
     }

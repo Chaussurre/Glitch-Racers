@@ -63,7 +63,7 @@ namespace Character
                 gravity.SetSensibility(ActionLockName, WallRunGravitySensibility);
                 wall = ground.CollidingObject;
                 normal = ground.Normal.normalized;
-                direction = Vector3.Cross(Vector3.up, normal);
+                direction = Vector3.Cross(transform.up, normal);
                 if (Vector3.Dot(transform.forward, direction) < 0)
                     direction *= -1;
             }
@@ -79,7 +79,7 @@ namespace Character
         
         public void WallRun()
         {
-            Vector3 fall = Vector3.Project(rigidbody.velocity, Vector3.up);
+            Vector3 fall = Vector3.Project(rigidbody.velocity, transform.up);
             Vector3 flat = Vector3.Project(rigidbody.velocity, direction);
 
             if (flat.magnitude > WallRunSpeed)

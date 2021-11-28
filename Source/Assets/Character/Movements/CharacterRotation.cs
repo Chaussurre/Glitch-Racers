@@ -28,15 +28,6 @@ namespace Character
         
         private readonly HashSet<string> lockedList = new HashSet<string>();
 
-        private Vector3 rotation;
-        private Vector3 target;
-
-        private void Start()
-        {
-            rotation = transform.rotation.eulerAngles;
-            target = targetTransform.transform.localRotation.eulerAngles;
-        }
-        
         //! Store the status of the name passed in parameter in a hashset
         public void SetIsLocked(string funcName)
         {
@@ -50,26 +41,22 @@ namespace Character
 
         public void LookAround(CharacterInput input)
         {
-            string s = "Rotation locked : {IsLocked} :";
-            foreach (var l in lockedList)
-                s += l;
-            Debug.Log(s);
+            Vector3 target = targetTransform.localEulerAngles;
 
+            if (target.x > 180)
+                target.x -= 360;
             target.x -= input.Camera.y * sensitivity * Time.deltaTime;
             target.x = Mathf.Clamp(target.x, minAngle, maxAngle);
 
             if(!IsLocked)
             {
-                rotation.y += target.y;
-                target.y = 0;
-                rotation.y += input.Camera.x * sensitivity * Time.deltaTime;
-                transform.localEulerAngles = rotation;
+                transform.Rotate(Vector3.up, input.Camera.x * sensitivity * Time.deltaTime);
             }
             else
             {
-                target.y += input.Camera.x * sensitivity * Time.deltaTime;
+                //target = Quaternion.AngleAxis(input.Camera.x * sensitivity * Time.deltaTime, transform.up) * tar;
             }
-            
+
             targetTransform.localEulerAngles = target;
         }
     }

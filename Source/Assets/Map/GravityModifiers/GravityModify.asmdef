@@ -1,9 +1,7 @@
 {
-    "name": "Character",
-    "rootNamespace": "Character",
-    "references": [
-        "GUID:9a842f1d452ccd5428cedb18c87b0458"
-    ],
+    "name": "GravityModify",
+    "rootNamespace": "Map.GravityModify",
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,

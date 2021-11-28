@@ -43,12 +43,12 @@ namespace Character
             if (ground && ground.Ground != GroundDetector.GroundType.Walkable) // Only walks on ground
                 return;
 
-            input.WalkDirection = Vector3.ProjectOnPlane(input.WalkDirection, Vector3.up);
+            input.WalkDirection = Vector3.ProjectOnPlane(input.WalkDirection, transform.up);
 
             if (input.WalkDirection.sqrMagnitude > 1)
                 input.WalkDirection.Normalize();
 
-            Vector3 flatVelocity = Vector3.ProjectOnPlane(rigidbody.velocity, Vector3.up);
+            Vector3 flatVelocity = Vector3.ProjectOnPlane(rigidbody.velocity, transform.up);
             Vector3 fallVel = rigidbody.velocity - flatVelocity;
 
             Vector3 forwardVel = Vector3.Project(rigidbody.velocity, transform.forward);

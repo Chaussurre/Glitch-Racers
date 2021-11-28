@@ -25,10 +25,13 @@ namespace Character
         Vector3? CatchedPoint = null;
         bool climbing = false;
 
+        LayerMask layerMask;
+
         readonly string ActionLockName = "Ledge catcher";
 
         private void Start()
         {
+            layerMask = LayerMask.GetMask("Map");
             rb = GetComponent<Rigidbody>();
             ground = GetComponent<GroundDetector>();
             grapplingHook = GetComponent<GrapplingHookShooter>();
@@ -64,9 +67,9 @@ namespace Character
             climbing = true;
             characterRotation.SetIsLocked(ActionLockName);
             Vector3 start = transform.position;
-            Vector3 mid = transform.position + Vector3.up * (LedgeMaxHeight + .3f) 
-                + Vector3.Project(CatchedPoint.Value - transform.position, Vector3.up);
-            Vector3 end = CatchedPoint.Value + Vector3.up * (LedgeMaxHeight + .3f);
+            Vector3 mid = transform.position + transform.up * (LedgeMaxHeight + .3f) 
+                + Vector3.Project(CatchedPoint.Value - transform.position, transform.up);
+            Vector3 end = CatchedPoint.Value + transform.up * (LedgeMaxHeight + .3f);
             float stepTime = 0.5f;
             
 
@@ -102,7 +105,7 @@ namespace Character
             if (Vector3.Dot(rb.velocity, Vector3.down) < 0)
                 return;
 
-            if (Physics.Raycast(transform.position + Vector3.up * LedgeMaxHeight, transform.forward, out RaycastHit hit, 1f) &&
+            if (Physics.Raycast(transform.position + transform.up * LedgeMaxHeight, transform.forward, out RaycastHit hit, 1f, layerMask) &&
                 hit.collider.gameObject == ground.CollidingObject)
                 return;
 
@@ -116,9 +119,9 @@ namespace Character
 
         float? GetLedgeHeight(out Vector3? point)
         {
-            Vector3 origin = transform.position + Vector3.up * LedgeMaxHeight + transform.forward;
+            Vector3 origin = transform.position + transform.up * LedgeMaxHeight + transform.forward;
 
-            if (Physics.Raycast(origin, Vector3.down, out RaycastHit hit))
+            if (Physics.Raycast(origin, -transform.up, out RaycastHit hit, LedgeMaxHeight, layerMask))
             {
                 point = hit.point;
                 return LedgeMaxHeight - Vector3.Distance(origin, hit.point);
@@ -132,11 +135,11 @@ namespace Character
         private void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawRay(transform.position + Vector3.up * LedgeMaxHeight, transform.forward);
-            Handles.Label(transform.position + Vector3.up * LedgeMaxHeight, "Ledge Max Height");
+            Gizmos.DrawRay(transform.position + transform.up * LedgeMaxHeight, transform.forward);
+            Handles.Label(transform.position + transform.up * LedgeMaxHeight, "Ledge Max Height");
             Gizmos.color = Color.green;
-            Gizmos.DrawRay(transform.position + Vector3.up * LedgeMinHeight, transform.forward);
-            Handles.Label(transform.position + Vector3.up * LedgeMinHeight, "Ledge Min Height");
+            Gizmos.DrawRay(transform.position + transform.up * LedgeMinHeight, transform.forward);
+            Handles.Label(transform.position + transform.up * LedgeMinHeight, "Ledge Min Height");
         }
 #endif
     }
