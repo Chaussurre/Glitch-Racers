@@ -50,11 +50,12 @@ namespace Character
 
             if(!IsLocked)
             {
-                transform.Rotate(Vector3.up, input.Camera.x * sensitivity * Time.deltaTime);
+                transform.Rotate(Vector3.up, input.Camera.x * sensitivity * Time.deltaTime + target.y);
+                target.y = 0;
             }
             else
             {
-                //target = Quaternion.AngleAxis(input.Camera.x * sensitivity * Time.deltaTime, transform.up) * tar;
+                target.y += input.Camera.x * sensitivity * Time.deltaTime;
             }
 
             targetTransform.localEulerAngles = target;
