@@ -42,7 +42,11 @@ namespace Character
 
         Vector3 GetCurvePoint(float distance)
         {
-            return jumpDirection.normalized * distance;
+            Vector2 velocity = new Vector2(10, 15);
+            float t = distance / velocity.x;
+            //return jumpDirection.normalized * distance;
+            return new Vector3(distance,  - Physics.gravity.magnitude * t * t / 2 +
+                 velocity.y * t);
         }
 #endif
     }

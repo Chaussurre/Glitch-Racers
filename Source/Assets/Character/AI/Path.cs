@@ -13,6 +13,7 @@ namespace Character.IA
         
         [SerializeField] private List<PathTarget> Targets = new List<PathTarget>();
         private int incrementI;
+        private bool finish = true;
 
         public Vector3 getNextTarget(GameObject body)
         {
@@ -22,7 +23,13 @@ namespace Character.IA
                 incrementI++;
                 if (incrementI == Targets.Count)
                 {
+                    if (finish == false)
+                    {
+                        return target.transform.position;
+                    }
                     incrementI = 0;
+                    Targets.Reverse();
+                    finish = false;
                 }
             }
 
