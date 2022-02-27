@@ -21,15 +21,15 @@ namespace Character
         [Tooltip("The target object for vertical rotations")]
         private Transform targetTransform;
         
+        [SerializeField]
+        [Tooltip("The camera")]
+        private Transform cameraTransform;
+        
         //
         private Vector3 initVector;
         
-        private bool IsLocked
-        {
-            get => false;
-            set => IsLocked = LockCharacter();
-        }
-        
+        private bool IsLocked => LockCharacter();
+
         //Raycast to check if the camera hits a wall
         public void CheckCollision()
         {
@@ -46,15 +46,10 @@ namespace Character
             }
         }
         
-        private readonly HashSet<string> lockedList = new HashSet<string>();
-        
-        private Vector3 rotation;
-        private Vector3 target;
+        private readonly HashSet<string> lockedList = new();
 
         private void Start()
         {
-            rotation = transform.rotation.eulerAngles;
-            target = targetTransform.transform.localRotation.eulerAngles;
             initVector = cameraTransform.localPosition;
         }
 
@@ -67,6 +62,11 @@ namespace Character
         public void RemoveIsLocked(string funcName)
         {
             lockedList.Remove(funcName);
+        }
+        
+        public bool LockCharacter()
+        {
+            return lockedList.Count != 0;
         }
 
         public void LookAround(CharacterInput input)
