@@ -28,12 +28,8 @@ namespace Character
         //
         private Vector3 initVector;
         
-        private bool IsLocked
-        {
-            get => false;
-            set => IsLocked = LockCharacter();
-        }
-        
+        private bool IsLocked => LockCharacter();
+
         //Raycast to check if the camera hits a wall
         public void CheckCollision()
         {
@@ -50,15 +46,10 @@ namespace Character
             }
         }
         
-        private readonly HashSet<string> lockedList = new HashSet<string>();
-        
-        private Vector3 rotation;
-        private Vector3 target;
+        private readonly HashSet<string> lockedList = new();
 
         private void Start()
         {
-            rotation = transform.rotation.eulerAngles;
-            target = targetTransform.transform.localRotation.eulerAngles;
             initVector = cameraTransform.localPosition;
         }
 
