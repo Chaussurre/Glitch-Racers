@@ -21,6 +21,10 @@ namespace Character
         [Tooltip("The target object for vertical rotations")]
         private Transform targetTransform;
         
+        [SerializeField]
+        [Tooltip("The camera")]
+        private Transform cameraTransform;
+        
         //
         private Vector3 initVector;
         
@@ -67,6 +71,11 @@ namespace Character
         public void RemoveIsLocked(string funcName)
         {
             lockedList.Remove(funcName);
+        }
+        
+        public bool LockCharacter()
+        {
+            return lockedList.Count != 0;
         }
 
         public void LookAround(CharacterInput input)
