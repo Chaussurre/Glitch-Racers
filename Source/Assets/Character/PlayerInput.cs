@@ -11,6 +11,7 @@ namespace Character.Player
 
         private void Start()
         {
+            Cursor.lockState = CursorLockMode.Locked;
             rb = GetComponentInChildren<Rigidbody>();
             Cursor.lockState = CursorLockMode.Locked;
         }
