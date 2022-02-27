@@ -20,13 +20,43 @@ namespace Character
         [SerializeField]
         [Tooltip("The target object for vertical rotations")]
         private Transform targetTransform;
-
-        public bool IsLocked
+        
+        //
+        private Vector3 initVector;
+        
+        private bool IsLocked
         {
-            get { return lockedList.Count > 0; }
+            get => false;
+            set => IsLocked = LockCharacter();
+        }
+        
+        //Raycast to check if the camera hits a wall
+        public void CheckCollision()
+        {
+            Vector3 direction = cameraTransform.position - targetTransform.position;
+            if (Physics.Raycast(targetTransform.position, direction, out RaycastHit hit, initVector.magnitude))
+            { 
+                cameraTransform.position = hit.point;
+                Debug.Log("Did Hit");
+            }
+            else
+            {
+                cameraTransform.localPosition = initVector;
+                Debug.Log("Did not Hit");
+            }
         }
         
         private readonly HashSet<string> lockedList = new HashSet<string>();
+        
+        private Vector3 rotation;
+        private Vector3 target;
+
+        private void Start()
+        {
+            rotation = transform.rotation.eulerAngles;
+            target = targetTransform.transform.localRotation.eulerAngles;
+            initVector = cameraTransform.localPosition;
+        }
 
         //! Store the status of the name passed in parameter in a hashset
         public void SetIsLocked(string funcName)
