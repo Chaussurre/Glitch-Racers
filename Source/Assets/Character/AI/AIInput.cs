@@ -23,7 +23,7 @@ namespace Character.IA
 
         protected override Vector3 GetCameraDirection()
         {
-            float horizontal = Vector3.SignedAngle(body.transform.forward, target - body.transform.position, Vector3.up);
+            float horizontal = Vector3.SignedAngle(body.transform.forward, target - body.transform.position, body.  transform.up);
             float vertical = Vector3.SignedAngle(body.transform.forward, target - body.transform.position, body.transform.right);
             Debug.Log(horizontal);
             return new Vector3(horizontal, vertical);
