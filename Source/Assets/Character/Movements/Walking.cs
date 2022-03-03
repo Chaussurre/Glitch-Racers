@@ -40,15 +40,17 @@ namespace Character
         //! Walk the character in the given direction
         public void Walk(CharacterInput input)
         {
-            if (ground && ground.Ground != GroundDetector.GroundType.Walkable) // Only walks on ground
+            if (!ground || ground.Ground != GroundDetector.GroundType.Walkable) // Only walks on ground
                 return;
 
-            input.WalkDirection = Vector3.ProjectOnPlane(input.WalkDirection, Vector3.up);
+            rigidbody.velocity = Quaternion.FromToRotation(ground.Normal, transform.up) * rigidbody.velocity;
+
+            input.WalkDirection = Vector3.ProjectOnPlane(input.WalkDirection, transform.up);
 
             if (input.WalkDirection.sqrMagnitude > 1)
                 input.WalkDirection.Normalize();
 
-            Vector3 flatVelocity = Vector3.ProjectOnPlane(rigidbody.velocity, Vector3.up);
+            Vector3 flatVelocity = Vector3.ProjectOnPlane(rigidbody.velocity, transform.up);
             Vector3 fallVel = rigidbody.velocity - flatVelocity;
 
             Vector3 forwardVel = Vector3.Project(rigidbody.velocity, transform.forward);
@@ -56,9 +58,9 @@ namespace Character
             Vector3 forwardInput = Vector3.Project(input.WalkDirection, transform.forward);
             Vector3 sideInput = input.WalkDirection - forwardInput;
 
-            rigidbody.velocity = MoveForward(forwardInput, forwardVel) 
-                + MoveSide(sideInput) 
-                + fallVel;
+            Vector3 Move = MoveForward(forwardInput, forwardVel) + MoveSide(sideInput);
+            rigidbody.velocity = Move + fallVel;
+            rigidbody.velocity = Quaternion.FromToRotation(transform.up, ground.Normal) * rigidbody.velocity;
         }
 
         Vector3 MoveForward(Vector3 input, Vector3 velocity)

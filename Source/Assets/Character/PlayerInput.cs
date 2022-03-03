@@ -7,22 +7,21 @@ namespace Character.Player
     //! InputController for the player
     public class PlayerInput : InputController
     {
-
         Rigidbody rb;
 
         private void Start()
         {
+            Cursor.lockState = CursorLockMode.Locked;
             rb = GetComponentInChildren<Rigidbody>();
+            Cursor.lockState = CursorLockMode.Locked;
         }
 
         protected override Vector3 GetWalkDirection()
         {
             float x = Input.GetAxis("Horizontal");
             float z = Input.GetAxis("Vertical");
-
-            Quaternion rotationInput = Quaternion.Euler(0, Vector3.SignedAngle(Vector3.forward, rb.transform.forward, Vector3.up), 0);
             
-            return rotationInput * new Vector3(x, 0, z);
+            return x * rb.transform.right + z * rb.transform.forward;
         }
 
         protected override bool GetJump(out bool hold)
@@ -38,6 +37,11 @@ namespace Character.Player
             camDirection.y = Input.GetAxis("Mouse Y");
 
             return camDirection;
+        }
+
+        protected override bool GetHooking()
+        {
+            return Input.GetMouseButton(0);
         }
     }
 }

@@ -13,28 +13,34 @@ namespace Character
         Rigidbody rb;
         GroundDetector ground;
         GravityApply gravity;
+        GrapplingHookShooter grapplingHook;
+        CharacterRotation characterRotation;
 
         GameObject wall = null;
         Vector3 normal;
 
-        readonly string gravitySensitivityName = "Wall Climb";
+        readonly string ActionLockName = "Wall Climb";
 
         private void Start()
         {
             rb = GetComponentInChildren<Rigidbody>();
             ground = GetComponentInChildren<GroundDetector>();
             gravity = GetComponentInChildren<GravityApply>();
+            grapplingHook = GetComponentInChildren<GrapplingHookShooter>();
+            characterRotation = GetComponentInChildren<CharacterRotation>();
         }
 
         public void TryWallClimb()
         {
-            if (ground.Ground == GroundDetector.GroundType.WallClimbable)
+            if (ground.Ground == GroundDetector.GroundType.WallClimbable && !grapplingHook.IsHooking)
                 StartWallClimb();
             else if (ground.Ground == GroundDetector.GroundType.Walkable) //Reached ground
                 StopWallClimb();
-            else if (gravity.Falling) //Stoped climbing
+            else if (gravity.IsFalling) //Stoped climbing
                 StopWallClimb();
             else if (!Physics.Raycast(transform.position, -normal, out RaycastHit hit) || hit.collider.gameObject != wall) //No longer next to the wall
+                StopWallClimb();
+            else if (grapplingHook.IsHooking) //started hooking
                 StopWallClimb();
 
             if(wall) WallClimb();
@@ -42,20 +48,22 @@ namespace Character
 
         void StartWallClimb()
         {
-            gravity.SetSensibility(gravitySensitivityName, WallClimbGravitySensibility);
+            gravity.SetSensibility(ActionLockName, WallClimbGravitySensibility);
+            characterRotation.SetIsLocked(ActionLockName);
             wall = ground.CollidingObject;
             normal = ground.Normal.normalized;
         }
 
         void StopWallClimb()
         {
-            gravity.RemoveSensibility(gravitySensitivityName);
+            gravity.RemoveSensibility(ActionLockName);
+            characterRotation.RemoveIsLocked(ActionLockName);
             wall = null;
         }
 
         void WallClimb()
         {
-            rb.velocity = Vector3.Project(rb.velocity, Vector3.up);
+            rb.velocity = Vector3.Project(rb.velocity, transform.up);
             rb.velocity += -normal;
         }
     }

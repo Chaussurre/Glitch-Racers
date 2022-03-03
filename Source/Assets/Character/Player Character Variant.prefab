@@ -19,6 +19,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 626757308, guid: 61d11483c92cebd449c9ffdfd3ea6cab, type: 3}
+      propertyPath: WallRunSpeed
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 626757308, guid: 61d11483c92cebd449c9ffdfd3ea6cab, type: 3}
+      propertyPath: WallRunGravitySensibility
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 2067945897490494189, guid: 61d11483c92cebd449c9ffdfd3ea6cab, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -29,7 +37,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2067945897490494189, guid: 61d11483c92cebd449c9ffdfd3ea6cab, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.61
+      value: -3.196
       objectReference: {fileID: 0}
     - target: {fileID: 2067945897490494189, guid: 61d11483c92cebd449c9ffdfd3ea6cab, type: 3}
       propertyPath: m_LocalPosition.z
@@ -66,6 +74,14 @@ PrefabInstance:
     - target: {fileID: 3677756228612598957, guid: 61d11483c92cebd449c9ffdfd3ea6cab, type: 3}
       propertyPath: m_Name
       value: Player Character Variant
+      objectReference: {fileID: 0}
+    - target: {fileID: 8287218321304499900, guid: 61d11483c92cebd449c9ffdfd3ea6cab, type: 3}
+      propertyPath: segmentPrefab
+      value: 
+      objectReference: {fileID: -4460200120380492235, guid: 084d0d8544c6e2b45aba665fd598379e, type: 3}
+    - target: {fileID: 8287218321304499900, guid: 61d11483c92cebd449c9ffdfd3ea6cab, type: 3}
+      propertyPath: DistanceSegment
+      value: 0.14
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 61d11483c92cebd449c9ffdfd3ea6cab, type: 3}
