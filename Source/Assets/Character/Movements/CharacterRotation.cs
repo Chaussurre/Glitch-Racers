@@ -7,7 +7,7 @@ namespace Character
      */
     public class CharacterRotation : MonoBehaviour
     {
-        [SerializeField, Range(-45, -15)]
+        [SerializeField, Range(-70, -15)]
         [Tooltip("comment")]
         private int minAngle = -30;
         
@@ -20,24 +20,38 @@ namespace Character
         [SerializeField]
         [Tooltip("The target object for vertical rotations")]
         private Transform targetTransform;
+        
+        [SerializeField]
+        [Tooltip("The camera")]
+        private Transform cameraTransform;
+  
+        private Vector3 initVector;
+        
+        private bool IsLocked => LockCharacter();
 
-        private bool IsLocked
+        //Raycast to check if the camera hits a wall
+        public void CheckCollision()
         {
-            get => true;
-            set => IsLocked = LockCharacter();
+            Vector3 direction = cameraTransform.position - targetTransform.position;
+            if (Physics.Raycast(targetTransform.position, direction, out RaycastHit hit, initVector.magnitude))
+            { 
+                cameraTransform.position = hit.point;
+                //Debug.Log("Did Hit");
+            }
+            else
+            {
+                cameraTransform.localPosition = initVector;
+                //Debug.Log("Did not Hit");
+            }
         }
         
         private readonly HashSet<string> lockedList = new();
 
-        private Vector3 rotation;
-        private Vector3 target;
-
         private void Start()
         {
-            rotation = transform.rotation.eulerAngles;
-            target = targetTransform.transform.localRotation.eulerAngles;
+            initVector = cameraTransform.localPosition;
         }
-        
+
         //! Store the status of the name passed in parameter in a hashset
         public void SetIsLocked(string funcName)
         {
@@ -57,21 +71,23 @@ namespace Character
 
         public void LookAround(CharacterInput input)
         {
+            Vector3 target = targetTransform.localEulerAngles;
+
+            if (target.x > 180)
+                target.x -= 360;
             target.x -= input.Camera.y * sensitivity * Time.deltaTime;
             target.x = Mathf.Clamp(target.x, minAngle, maxAngle);
 
             if(!IsLocked)
             {
-                rotation.y += target.y;
+                transform.Rotate(Vector3.up, input.Camera.x * sensitivity * Time.deltaTime + target.y);
                 target.y = 0;
-                rotation.y += input.Camera.x * sensitivity * Time.deltaTime;
-                transform.localEulerAngles = rotation;
             }
             else
             {
                 target.y += input.Camera.x * sensitivity * Time.deltaTime;
             }
-            
+
             targetTransform.localEulerAngles = target;
         }
     }

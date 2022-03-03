@@ -256,6 +256,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &77504455 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5067005016042953193, guid: acef4a94ba202994d9289c5223f730b2, type: 3}
+  m_PrefabInstance: {fileID: 930840261154478204}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &327903428
 GameObject:
   m_ObjectHideFlags: 0
@@ -447,6 +452,11 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!4 &725775862 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8402879461530255493, guid: acef4a94ba202994d9289c5223f730b2, type: 3}
+  m_PrefabInstance: {fileID: 930840261154478204}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1154278124
 GameObject:
   m_ObjectHideFlags: 0
@@ -769,6 +779,14 @@ PrefabInstance:
       propertyPath: LedgeCheckerMinHeight
       value: 0.19
       objectReference: {fileID: 0}
+    - target: {fileID: 7219946269076286062, guid: acef4a94ba202994d9289c5223f730b2, type: 3}
+      propertyPath: cameraTransform
+      value: 
+      objectReference: {fileID: 725775862}
+    - target: {fileID: 7219946269076286062, guid: acef4a94ba202994d9289c5223f730b2, type: 3}
+      propertyPath: targetTransform
+      value: 
+      objectReference: {fileID: 77504455}
     - target: {fileID: 7507456116696335997, guid: acef4a94ba202994d9289c5223f730b2, type: 3}
       propertyPath: m_RootOrder
       value: 1
