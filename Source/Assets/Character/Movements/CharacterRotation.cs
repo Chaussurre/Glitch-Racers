@@ -37,12 +37,12 @@ namespace Character
             if (Physics.Raycast(targetTransform.position, direction, out RaycastHit hit, initVector.magnitude))
             { 
                 cameraTransform.position = hit.point;
-                Debug.Log("Did Hit");
+                //Debug.Log("Did Hit");
             }
             else
             {
                 cameraTransform.localPosition = initVector;
-                Debug.Log("Did not Hit");
+                //Debug.Log("Did not Hit");
             }
         }
         

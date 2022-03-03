@@ -38,6 +38,9 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Pause
+    uniqueID: 2763170141
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
