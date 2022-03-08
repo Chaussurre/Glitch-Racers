@@ -45,6 +45,7 @@ namespace Character
             rotation?.LookAround(input);
             LedgeCatcher?.TryCatchLedge(input);
             rotation.CheckCollision();
+            rotation.ScrollWheelCamera();
         }
     }
 }

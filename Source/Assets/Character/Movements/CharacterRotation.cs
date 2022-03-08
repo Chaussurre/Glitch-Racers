@@ -45,6 +45,21 @@ namespace Character
                 //Debug.Log("Did not Hit");
             }
         }
+
+        public void ScrollWheelCamera()
+        {
+            //Zoom
+            if (Input.GetAxis("Mouse ScrollWheel") > 0)
+            {
+                cameraTransform.GetComponent<Camera>().fieldOfView-=2;
+            }
+            
+            //Dezoom
+            if (Input.GetAxis("Mouse ScrollWheel") < 0)
+            {
+                cameraTransform.GetComponent<Camera>().fieldOfView+=2;
+            }
+        }
         
         private readonly HashSet<string> lockedList = new();
 
