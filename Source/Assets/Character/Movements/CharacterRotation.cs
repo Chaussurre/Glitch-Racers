@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 
 namespace Character
@@ -24,9 +26,14 @@ namespace Character
         [SerializeField]
         [Tooltip("The camera")]
         private Transform cameraTransform;
-        
-        //
+
         private Vector3 initVector;
+
+        [SerializeField] [Tooltip("The min value of the field of view")]
+        private float minFOV = 10f;
+
+        [SerializeField] [Tooltip("The max value of the field of view")]
+        private float maxFOV = 60f;
         
         private bool IsLocked => LockCharacter();
 
@@ -49,13 +56,13 @@ namespace Character
         public void ScrollWheelCamera()
         {
             //Zoom
-            if (Input.GetAxis("Mouse ScrollWheel") > 0)
+            if (Input.GetAxis("Mouse ScrollWheel") > 0 && cameraTransform.GetComponent<Camera>().fieldOfView > minFOV)
             {
                 cameraTransform.GetComponent<Camera>().fieldOfView-=2;
             }
             
             //Dezoom
-            if (Input.GetAxis("Mouse ScrollWheel") < 0)
+            if (Input.GetAxis("Mouse ScrollWheel") < 0 && cameraTransform.GetComponent<Camera>().fieldOfView < maxFOV)
             {
                 cameraTransform.GetComponent<Camera>().fieldOfView+=2;
             }
