@@ -90,5 +90,10 @@ namespace Character
 
             targetTransform.localEulerAngles = target;
         }
+
+        public void CameraZoom()
+        {
+            var mouseSpeed = Input.mouseScrollDelta;
+        }
     }
 }

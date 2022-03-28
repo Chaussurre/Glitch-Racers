@@ -9,9 +9,8 @@ namespace Character
     public class GravityApply : MonoBehaviour
     {
         Rigidbody rb;
-
-
-        readonly private Dictionary<string, float> sensibilities = new Dictionary<string, float>();
+        
+        private readonly Dictionary<string, float> sensibilities = new();
 
         //! Change the character's sensibility to gravity by given ratio. Sensibilities are stored by name
         public void SetSensibility(string name, float val)
