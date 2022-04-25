@@ -31,8 +31,13 @@ namespace Character.IA
 
         private void Update()
         {
+            StartCoroutine(Waits());
+        }
+
+        private IEnumerator Waits()
+        {
+            yield return new WaitForSeconds(0.5f);
             target = path.getNextTarget(body);
         }
-        
     }
 }
