@@ -1,6 +1,4 @@
-using System;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 namespace Character
@@ -44,12 +42,10 @@ namespace Character
             if (Physics.Raycast(targetTransform.position, direction, out RaycastHit hit, initVector.magnitude))
             { 
                 cameraTransform.position = hit.point;
-                //Debug.Log("Did Hit");
             }
             else
             {
                 cameraTransform.localPosition = initVector;
-                //Debug.Log("Did not Hit");
             }
         }
 

@@ -1,36 +1,44 @@
-using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PauseScript : MonoBehaviour
 {
+    //Objects to show when pausing the game
     private GameObject[] objects;
-    public GameObject test;
 
     private void Pause()
     {
-        Cursor.lockState = CursorLockMode.None;
         if (!Input.GetKeyDown(KeyCode.Escape)) return;
+        Cursor.lockState = CursorLockMode.None;
         foreach (var obj in objects)
         {
             obj.SetActive(true);
         }
         Time.timeScale = 0f;
-        test.SetActive(false);
+    }
+
+    public void Menu()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(0);
     }
     
     public void Resume()
     {
         Cursor.lockState = CursorLockMode.Confined;
         GameObject.FindWithTag("PauseObject").SetActive(false);
-        Debug.Log("Resuming");
         Time.timeScale = 1f;
         foreach (var obj in objects)
         {
             obj.SetActive(false);
         }
-        test.SetActive(true);
     }
 
+    public void Quit()
+    {
+        Application.Quit();
+    }
+    
     private void Start()
     {
         objects = GameObject.FindGameObjectsWithTag("PauseObject");
